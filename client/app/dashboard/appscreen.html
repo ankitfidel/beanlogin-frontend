@@ -1,0 +1,118 @@
+<html>
+<style>
+.searchButton {
+  position: absolute;
+  right: -50px;
+  width: 40px;
+  height: 36px;
+  border: 1px solid #00B4CC;
+  background: #00B4CC;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 20px;
+}
+.searchTerm {
+  float: left;
+  width: 50%;
+  border: 3px solid #00B4CC;
+  padding: 5px;
+  height: 20px;
+  border-radius: 5px;
+  outline: none;
+  color: #9DBFAF;
+}
+
+.searchTerm:focus{
+  color: #00B4CC;
+}
+</style>
+<div ng-controller="appsController" ng-init="grid = true">
+<div class="row" style="margin-top:50px;margin-bottom:20px; margin-left: 20px;">
+
+    <input class="form-control form-control col-sm-6 col-lg-6" ng-model="txtsearch" type="text" placeholder="Search" aria-label="Search">  <i class="fa fa-search" aria-hidden="true" style="    margin-left: -32px;
+    opacity: 0.34;
+    margin-top: 10px;"></i></input>
+    <div class="col-sm-6 col-lg-4">
+     <i class="fa fa-2x text-grey fa-list" ng-class={'text-primary':list}  ng-click="grid = false; list = true" style="outline: 0;opacity: 0.5; margin-left:10px;padding-left: 20px;"></i>
+        <i class="fa fa-2x text-grey fa-th" ng-class={'text-primary':grid} ng-click="grid = true; list = false" style="outline: 0;opacity: 0.5;padding-left: 8px; margin-left:10px;"  ></i>
+        <i class="fa fa-2x text-grey  fa-sort-alpha-asc" ng-click ="toggleOrder()" ng-class={'text-primary':sortReverse} style="outline: 0;opacity: 0.5;padding-left: 8px; margin-left:10px;"></i>
+        <!-- <button class="btn btn-primary" style=" margin-left:10px;">App Catalog</button> -->
+      </div>
+
+
+
+
+  </div>
+  <section class="page-with-tabs">
+      <md-tabs md-dynamic-height>
+          <md-tab>
+              <md-tab-label>Supported</md-tab-label>
+              <md-tab-body>
+                <div class="row" ng-show="list">
+                  <div class="col-lg-12" ng-repeat="activites in appData.data.Data.UserActivities | filter:txtsearch | orderBy:sortType:sortReverse">
+                    <div class="ih-item square effect3 bottom_to_top row">
+                      <div class="col-lg-2">
+                        <a  ng-click = "showGmail($event,activites)" ng-init="">
+                          <img src="assets/icons/{{activites.Affiliate_Apps}}.png" style="margin-left: 28px;">
+                        </a>
+                      </div>
+                      <div class="col-lg-10">
+                        <p>{{activites.Affiliate_Apps}}</p>
+                      </div>
+                    </div>
+                  </div>
+                        </div>
+            <div class="row" ng-show="grid">
+              <div class="col-lg-2" ng-repeat="activites in appData.data.Data.UserActivities | filter:txtsearch | orderBy:sortType:sortReverse">
+                <div class="ih-item square effect3 bottom_to_top">
+                    <a  ng-click = "showGmail($event,activites)" ng-init="">
+                      <img src="assets/icons/{{activites.Affiliate_Apps}}.png" style="margin-left: 28px;">
+                    </a>
+
+                </div>
+              </div>
+                    </div>
+              </md-tab-body>
+          </md-tab>
+          <md-tab>
+              <md-tab-label>My affilates</md-tab-label>
+              <md-tab-body>
+
+
+                <div class="row">
+
+
+                  <div class="col-lg-2" ng-repeat="activites in appData.data.Data.UserActivities | filter:txtsearch | orderBy:sortType:sortReverse">
+                    <div class="ih-item square effect3 bottom_to_top" ng-if="$index === 0">
+
+                          <a ng-click = "showAdvanced($event,activites)"><img src="assets/icons/Amazon India_mobile.png" style="margin-left: 28px;" alt="img"></a>
+                            <div class="info">
+                                <h3>Amazon India</h3>
+                            </div>
+                        </a>
+                    </div>
+                  </div>
+
+
+
+                  </div>
+                </div>
+              </md-tab-body>
+          </md-tab>
+          <md-tab>
+              <md-tab-label>My Notes &nbsp;&nbsp;</md-tab-label>
+
+              <md-tab-body>
+                  <div class="article-title color-dark">Blank 3</div>
+              </md-tab-body>
+          </md-tab>
+          <md-tab>
+          <button class="btn btn-primary"><i class="fa fa-plus"></i></button>
+          </md-tab>
+      </md-tabs>
+
+  </section>
+</div>
+</html>

@@ -1,0 +1,31 @@
+
+@import "variables";
+
+@import
+    "libs/angular/angular"
+,   "libs/angular-material/angular-material"
+,   "libs/material-icons"
+,   "libs/angular-material-data-table"
+,   "libs/angular-wizard"
+,   "libs/text-angular"
+,   "libs/fullcalendar"
+;
+
+@import
+// Pages
+    "page/demo"
+,   "page/auth"
+,   "page/error"
+,   "page/lock-screen"
+,   "page/profile"
+,   "page/invoice"
+,   "page/dashboard"
+,   "page/maintenance"
+,   "page/about"
+,   "page/terms"
+,   "page/blog"
+;
+
+@import
+    "apps/tasks"
+;
