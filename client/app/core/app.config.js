@@ -24,7 +24,7 @@
         var date = new Date();
         var year = date.getFullYear();
         var app = {
-            brand: 'Material',
+            brand: 'BeanLogin',
             user: 'Jane',
             year: year,
             pageTransition: pageTransitionOpts[0],          // 0, 1, 2, 3... and build your own

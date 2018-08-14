@@ -1,0 +1,66 @@
+       <md-dialog  class="customdialogaffilate"  ng-controller="DialogController" >
+         <form ng-cloak name="affilateform">
+           <md-toolbar>
+             <div class="md-toolbar-tools">
+               <img src="assets/icons/BeanloginApp.png" alt="img" style="width: 21px;">
+               <h2 style="margin-left: 10px;">Affilate</h2>
+               <span flex></span>
+               <md-button class="md-icon-button" ng-click="cancel()">
+                 <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+               </md-button>
+             </div>
+           </md-toolbar>
+
+           <md-dialog-content>
+             <div class="md-dialog-content">
+               <label>Enable</label>
+               <!-- <input ng-model="user.Status"> -->
+                <!-- <md-switch class="md-primary" name="special" ng-model="project.special" required style="margin-top: -26px;
+     margin-left: 115px;"></md-switch> -->
+     <md-switch class="md-primary" ng-change="onChange(data.cb6)" ng-model="user.status" ng-true-value="'true'" ng-false-value="'false'" aria-label="Switch 1" style="margin-top: -26px;
+margin-left: 115px;">
+
+  </md-switch>
+
+      <md-input-container class="md-block" flex-gt-xs>
+        <label>App Name</label>
+        <input ng-model="App_Name" value="App_Name">
+          </md-input-container>
+
+          <md-input-container class="md-block" flex-gt-xs>
+            <label>Description</label>
+           <textarea ng-model="user.description" md-maxlength="" required rows="1" md-select-on-focus></textarea>
+           <div ng-messages="affilateform.description.$error">
+              <div ng-message="required">This is required.</div>
+            </div>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-xs>
+            <label>App URL</label>
+            <input ng-model="user.appurl" required>
+            <div ng-messages="affilateform.appurl.$error">
+               <div ng-message="required">This is required.</div>
+             </div>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-xs>
+            <label>Username</label>
+            <input ng-model="user.username" required>
+            <div ng-messages="affilateform.username.$error">
+               <div ng-message="required">This is required.</div>
+             </div>
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-xs>
+            <label>password</label>
+            <input type="password" ng-model="user.password" required>
+            <div ng-messages="affilateform.password.$error">
+               <div ng-message="required">This is required.</div>
+             </div>
+          </md-input-container>
+
+           </md-dialog-content>
+
+           <div>
+        <md-button type="submit" ng-click="save(user)" class="btn btn-primary">Submit</md-button>
+        <md-button type="button" ng-click="cancel()">Cancel</md-button>
+      </div>
+         </form>
+       </md-dialog>

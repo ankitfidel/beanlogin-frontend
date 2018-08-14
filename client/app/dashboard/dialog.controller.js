@@ -3,7 +3,7 @@ angular.module('app')
 
 
  function DialogController($scope,$mdDialog,$rootScope, $http) {
-   
+
  $scope.closeDialog = function() {
 
           $mdDialog.hide();
@@ -35,7 +35,7 @@ angular.module('app')
 
   $mdDialog.show({
       controller: 'DialogController',
-      templateUrl: '../dialog.html',
+      templateUrl: '../myaffiliate.html',
       parent: angular.element(document.body),
       targetEvent: ev,
       clickOutsideToClose: true,

@@ -3,11 +3,11 @@
     'use strict';
 
     angular.module('app')
-        .controller('appsController', ['$scope','$rootScope','$mdDialog','$http', appsController])
+        .controller('appsController', ['$scope','$rootScope','$mdDialog','$http','affiliate', appsController])
 
-     function appsController($scope,$rootScope,$mdDialog, $http) {
+     function appsController($scope,$rootScope,$mdDialog,affiliate, $http) {
 
-
+alert("affiliate")
        $scope.appData = {
          "data": {
            "Status": true,
@@ -418,7 +418,7 @@
         //alert($rootScope.app);
       $mdDialog.show({
           controller: 'DialogController',
-          templateUrl: '../app/dashboard/dialog.html',
+          templateUrl: '../app/dashboard/myaffiliate.html',
           parent: angular.element(document.body),
           targetEvent: ev,
           locals:{parent: $rootScope},
