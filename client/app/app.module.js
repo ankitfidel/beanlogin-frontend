@@ -22,6 +22,7 @@
         ,'app.form'
         ,'app.form.validation'
         ,'app.page'
+        ,'app.api-affiliate'
 
         // App
         ,'app.calendar'
@@ -29,11 +30,3 @@
     ]);
 
 })();
-
-
-
-
-
-
-    
-

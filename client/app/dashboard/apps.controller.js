@@ -3,11 +3,24 @@
     'use strict';
 
     angular.module('app')
-        .controller('appsController', ['$scope','$rootScope','$mdDialog','$http','affiliate', appsController])
+        .controller('appsController', ['$scope','$rootScope','$mdDialog','$http','dataFactory',appsController])
 
-     function appsController($scope,$rootScope,$mdDialog,affiliate, $http) {
+     function appsController($scope,$rootScope,$mdDialog, $http, dataFactory) {
 
-alert("affiliate")
+
+     $scope.fetchPredefinedApps = function(){
+        return dataFactory.GetAffilatePredefinedApps().then(function(response) {
+        //  console.log("vccdc"+JSON.stringify(response.data))
+          $scope.allData = response.data.Data;
+           });
+    }
+    $scope.fetchaffiliateapps = function(){
+       return dataFactory.GetAffilateApps().then(function(response) {
+       //  console.log("vccdc"+JSON.stringify(response.data))
+         $scope.affilatesApps = response.data.Data;
+          });
+   }
+
        $scope.appData = {
          "data": {
            "Status": true,

@@ -2,9 +2,12 @@
 <div ng-controller="appsController" ng-init="grid = true">
 <div class="row" style="margin-top:50px;margin-bottom:20px; margin-left: 20px;">
 
-    <input class="form-control form-control col-sm-6 col-lg-6" ng-model="txtsearch" type="text" placeholder="Search" aria-label="Search">  <i class="fa fa-search" aria-hidden="true" style="    margin-left: -32px;
-    opacity: 0.34;
-    margin-top: 10px;"></i></input>
+    <div class="input-group col-sm-6">
+    <input id="email" ng-model="txtsearch" type="text" class="form-control" name="email" placeholder="Email">
+    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+  </div>
+
+
     <div class="col-sm-6 col-lg-4">
      <i class="fa fa-2x text-grey fa-list" ng-class={'text-primary':list}  ng-click="grid = false; list = true" style="outline: 0;opacity: 0.5; margin-left:10px;padding-left: 20px;"></i>
         <i class="fa fa-2x text-grey fa-th" ng-class={'text-primary':grid} ng-click="grid = true; list = false" style="outline: 0;opacity: 0.5;padding-left: 8px; margin-left:10px;"  ></i>
@@ -16,28 +19,28 @@
       <md-tabs md-dynamic-height>
           <md-tab>
               <md-tab-label>Supported</md-tab-label>
-              <md-tab-body>
-                <div class="row" ng-show="list">
-                  <div class="col-lg-12" ng-repeat="activites in appData.data.Data.UserActivities | filter:txtsearch | orderBy:sortType:sortReverse">
+              <md-tab-body >
+                <div class="row" ng-show="list" ng-init="fetchaffiliateapps()">
+                  <div class="col-lg-12" ng-repeat="affilatesApps in affilatesApps | filter:txtsearch | orderBy:sortType:sortReverse">
                     <div class="ih-item square effect3 bottom_to_top row">
                       <div class="col-lg-2">
                         <a  ng-click = "showGmail($event,activites)" ng-init="">
-                          <img src="assets/icons/{{activites.Affiliate_Apps}}.png" style="margin-left: 28px;">
+                          <img src="assets/icons/{{affilatesApps.Affiliate_Apps}}.png" style="margin-left: 28px;">
                         </a>
                       </div>
                       <div class="col-lg-10">
-                        <p>{{activites.Affiliate_Apps}}</p>
+                        <p>{{affilatesApps.App_Name}}</p>
                       </div>
                     </div>
                   </div>
                         </div>
-            <div class="row" ng-show="grid">
-              <div class="col-lg-2" ng-repeat="activites in appData.data.Data.UserActivities | filter:txtsearch | orderBy:sortType:sortReverse">
+            <div class="row" ng-show="grid" ng-init="fetchaffiliateapps()">
+              <div class="col-lg-2" ng-repeat="affilatesApps in affilatesApps | filter:txtsearch | orderBy:sortType:sortReverse">
                 <div class="ih-item square effect3 bottom_to_top">
                     <a  ng-click = "showGmail($event,activites)" ng-init="">
-                      <img src="assets/icons/{{activites.Affiliate_Apps}}.png" style="margin-left: 28px;">
+                      {{affilatesApps.App_Name}}
+                      <img src="assets/icons/{{affilatesApps.Affiliate_Apps}}.png" style="margin-left: 28px;">
                     </a>
-
                 </div>
               </div>
                     </div>
@@ -45,15 +48,14 @@
           </md-tab>
           <md-tab>
               <md-tab-label>My affilates</md-tab-label>
-              <md-tab-body>
-                <div class="row">
-                  <div class="col-lg-2" ng-repeat="activites in appData.data.Data.UserActivities | filter:txtsearch | orderBy:sortType:sortReverse">
-                    <div class="ih-item square effect3 bottom_to_top" ng-if="$index === 0">
+              <md-tab-body >
+                <div class="row" ng-init="fetchPredefinedApps()">
+                  <div class="col-lg-2" ng-repeat="activites in allData | filter:txtsearch | orderBy:sortType:sortReverse">
+                    <div class="ih-item square effect3 bottom_to_top">
 
-                          <a ng-click = "showAdvanced($event,activites)"><img src="assets/icons/Amazon India_mobile.png" style="margin-left: 28px;" alt="img"></a>
-                            <div class="info">
-                                <h3>Amazon India</h3>
-                            </div>
+                        <a  ng-click="showGmail($event,activites)">
+{{activites.AppName}}
+                          <img src="{{activites.AppIcon}}" style="margin-left: 28px;">
                         </a>
                     </div>
                   </div>

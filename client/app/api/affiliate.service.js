@@ -1,32 +1,32 @@
 
-angular.factory('affiliate', affiliate)
+(function () {
+    'use strict';
 
-/*@ngInject*/
-function affiliate($http, $q) {
 
-    var service = {
-        getAffiliateApps: getAffiliateApps,
+var app = angular.module('app.api-affiliate', []);
+
+app.factory('dataFactory', function ($http) {
+
+
+
+    var factory = {};
+    factory.GetAffilatePredefinedApps = function () {
+      return $http.get("https://demo.beanlogin.com/BeanLoginAPI/api/v1/BeanLogin/GetAffilatePredefinedApps")
+      .then(function(response) {
+        return response;
+        console.log(response.data)
+          //$scope.myWelcome = response.data;
+      });
     }
-
-    return service;
-
-    function hasUser() {
-        return true;
+    factory.GetAffilateApps = function () {
+      return $http.get("https://demo.beanlogin.com/BeanLoginAPI/api/v1/BeanLogin/GetAffilateApps")
+      .then(function(response) {
+        return response;
+        console.log(response.data)
+          //$scope.myWelcome = response.data;
+      });
     }
+    return factory;
 
-    function getAffiliateApps(user) {
-      alert()
-        var deferred = $q.defer();
-        var loginRequest = {
-            username: user.name,
-            password: user.password
-        };
-        $http.post('/api/auth/login', loginRequest).then(function success(response) {
-            deferred.resolve(response);
-        }, function fail(response) {
-            deferred.reject(response);
-        });
-        return deferred.promise;
-    }
-
-}
+});
+})();
