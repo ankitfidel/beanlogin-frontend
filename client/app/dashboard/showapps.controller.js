@@ -1,8 +1,8 @@
 angular.module('app')
-    .controller('EditController', ['$scope','$mdDialog','$rootScope','$http', EditController])
+    .controller('showAppsController', ['$scope','$mdDialog','$rootScope','$http', showAppsController])
 
 
- function EditController($scope,$mdDialog,$rootScope,$http) {
+ function showAppsController($scope,$mdDialog,$rootScope,$http) {
 
 
    $scope.closeDialog = function() {
@@ -12,6 +12,17 @@ angular.module('app')
         $scope.onChange = function(cbState) {
           $scope.message = cbState;
         };
+
+        $scope.inputType = 'password';
+
+ // Hide & show password function
+ $scope.hideShowPassword = function(){
+   if ($scope.inputType == 'password')
+     $scope.inputType = 'text';
+   else
+     $scope.inputType = 'password';
+ };
+ 
     $scope.App_Name = $rootScope.supportedApps;
 
   $scope.save = function(user) {
@@ -30,7 +41,7 @@ angular.module('app')
 
 
   $mdDialog.show({
-      controller: 'EditController',
+      controller: 'showAppsController',
       templateUrl: '../editApp.html',
       targetEvent: ev,
       clickOutsideToClose: true,

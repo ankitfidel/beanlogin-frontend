@@ -21,6 +21,42 @@
           });
    }
 
+   // retrieve record to fill out the form
+$scope.showAppsFunction = function(id){
+alert(id)
+    // get product to be edited
+  //  productsFactory.readOneProduct(id).then(function successCallback(response){
+
+        // put the values in form
+        // $scope.id = response.data.id;
+        // $scope.name = response.data.name;
+        // $scope.description = response.data.description;
+        // $scope.price = response.data.price;
+
+        $mdDialog.show({
+            controller: 'showAppsController',
+            templateUrl: '../app/dashboard/showapps.html',
+            parent: angular.element(document.body),
+            clickOutsideToClose: true,
+            scope: $scope,
+            preserveScope: true,
+            fullscreen: true
+        }).then(
+            function(){},
+
+            // user clicked 'Cancel'
+            function() {
+                // clear modal content
+              //  $scope.clearProductForm();
+            }
+        );
+
+//     }, function errorCallback(response){
+//         $scope.showToast("Unable to retrieve record.");
+//     });
+//
+ }
+
        $scope.appData = {
          "data": {
            "Status": true,

@@ -24,7 +24,7 @@
                   <div class="col-lg-12" ng-repeat="affilatesApps in affilatesApps | filter:txtsearch | orderBy:sortType:sortReverse">
                     <div class="ih-item square effect3 bottom_to_top row">
                       <div class="col-lg-2">
-                        <a  ng-click = "showGmail($event,activites)" ng-init="">
+                        <a  ng-click = "showAppsFunction(affilatesApps.Affiliate_Apps_ID)" ng-init="">
                           <img src="assets/icons/{{affilatesApps.Affiliate_Apps}}.png" style="margin-left: 28px;">
                         </a>
                       </div>
@@ -37,7 +37,7 @@
             <div class="row" ng-show="grid" ng-init="fetchaffiliateapps()">
               <div class="col-lg-2" ng-repeat="affilatesApps in affilatesApps | filter:txtsearch | orderBy:sortType:sortReverse">
                 <div class="ih-item square effect3 bottom_to_top">
-                    <a  ng-click = "showGmail($event,activites)" ng-init="">
+                    <a  ng-click = "showAppsFunction(affilatesApps.Affiliate_Apps_ID)" ng-init="">
                       {{affilatesApps.App_Name}}
                       <img src="assets/icons/{{affilatesApps.Affiliate_Apps}}.png" style="margin-left: 28px;">
                     </a>

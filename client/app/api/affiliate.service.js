@@ -26,6 +26,12 @@ app.factory('dataFactory', function ($http) {
           //$scope.myWelcome = response.data;
       });
     }
+  //   factory.readApps = function(id){
+  //   return $http({
+  //       method: 'GET',
+  //       url: 'http://localhost/api/product/read_one.php?id=' + id
+  //   });
+  // }
     return factory;
 
 });

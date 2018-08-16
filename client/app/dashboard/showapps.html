@@ -17,11 +17,10 @@
                <!-- <input ng-model="user.Status"> -->
                 <!-- <md-switch class="md-primary" name="special" ng-model="project.special" required style="margin-top: -26px;
      margin-left: 115px;"></md-switch> -->
-     <md-switch class="md-primary" ng-change="onChange(data.cb6)" ng-model="user.status" ng-true-value="'true'" ng-false-value="'false'" aria-label="Switch 1" style="margin-top: -26px;
-margin-left: 115px;">
+     <md-switch class="md-primary" ng-change="onChange(data.cb6)" ng-model="user.status" ng-true-value="'true'" ng-false-value="'false'" aria-label="Switch 1" style="margin-top: -26px;margin-left: 115px;">
 
   </md-switch>
-               
+
       <md-input-container class="md-block" flex-gt-xs>
         <label>App Name</label>
         <input ng-model="App_Name" value="App_Name">
@@ -50,7 +49,9 @@ margin-left: 115px;">
           </md-input-container>
           <md-input-container class="md-block" flex-gt-xs>
             <label>password</label>
-            <input type="password" ng-model="user.password" required>
+            <input type="{{inputType}}" placeholder="Put your password" />
+  
+   <label><i class="material-icons" ng-click="hideShowPassword()">remove_red_eye</i></label>
             <div ng-messages="affilateform.password.$error">
                <div ng-message="required">This is required.</div>
              </div>
@@ -59,7 +60,7 @@ margin-left: 115px;">
            </md-dialog-content>
 
            <div>
-        <md-button type="submit" ng-click="save(user)" class="btn btn-primary">Submit</md-button>
+        <md-button type="submit" ng-click="save(user)" class="md-raised md-primary">Save</md-button>
         <md-button type="button" ng-click="cancel()">Cancel</md-button>
       </div>
          </form>
