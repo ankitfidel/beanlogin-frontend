@@ -4,7 +4,6 @@ angular.module('app')
 
  function showAppsController($scope,$mdDialog,$rootScope,$http) {
 
-
    $scope.closeDialog = function() {
 
           $mdDialog.hide();
@@ -22,7 +21,7 @@ angular.module('app')
    else
      $scope.inputType = 'password';
  };
- 
+
     $scope.App_Name = $rootScope.supportedApps;
 
   $scope.save = function(user) {
@@ -37,7 +36,7 @@ angular.module('app')
           };
   $scope.showGmail = function(ev,appname) {
 
-    $rootScope.app = appname.Affiliate_Apps;
+
 
 
   $mdDialog.show({

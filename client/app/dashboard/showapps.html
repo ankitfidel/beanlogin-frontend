@@ -6,7 +6,7 @@
                <h2 style="margin-left: 10px;">Affilate</h2>
                <span flex></span>
                <md-button class="md-icon-button" ng-click="cancel()">
-                 <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+                 <i class="fa fa-times text-white" aria-label="Close dialog"></i>
                </md-button>
              </div>
            </md-toolbar>
@@ -17,41 +17,45 @@
                <!-- <input ng-model="user.Status"> -->
                 <!-- <md-switch class="md-primary" name="special" ng-model="project.special" required style="margin-top: -26px;
      margin-left: 115px;"></md-switch> -->
-     <md-switch class="md-primary" ng-change="onChange(data.cb6)" ng-model="user.status" ng-true-value="'true'" ng-false-value="'false'" aria-label="Switch 1" style="margin-top: -26px;margin-left: 115px;">
+     <md-switch class="md-primary" ng-model="Status" ng-click="onChange(Status)" aria-label="Switch 1" style="margin-top: -26px;margin-left: 115px;">
 
   </md-switch>
 
       <md-input-container class="md-block" flex-gt-xs>
         <label>App Name</label>
-        <input ng-model="App_Name" value="App_Name">
+        <input type="text" ng-model="AppName">
           </md-input-container>
 
           <md-input-container class="md-block" flex-gt-xs>
             <label>Description</label>
-           <textarea ng-model="user.description" md-maxlength="" required rows="1" md-select-on-focus></textarea>
-           <div ng-messages="affilateform.description.$error">
+           <textarea ng-model="App_Description" md-maxlength=""  rows="1" md-select-on-focus></textarea>
+           <div ng-messages="affilateform.App_Description.$error">
               <div ng-message="required">This is required.</div>
             </div>
           </md-input-container>
           <md-input-container class="md-block" flex-gt-xs>
             <label>App URL</label>
-            <input ng-model="user.appurl" required>
-            <div ng-messages="affilateform.appurl.$error">
+            <input ng-model="App_URL">
+            <div ng-messages="affilateform.App_URL.$error">
                <div ng-message="required">This is required.</div>
              </div>
           </md-input-container>
           <md-input-container class="md-block" flex-gt-xs>
-            <label>Username</label>
-            <input ng-model="user.username" required>
-            <div ng-messages="affilateform.username.$error">
+            <label>Username{{mode}}</label>
+            <input ng-model="Username">
+            <div ng-messages="affilateform.Username.$error">
                <div ng-message="required">This is required.</div>
              </div>
           </md-input-container>
           <md-input-container class="md-block" flex-gt-xs>
-            <label>password</label>
-            <input type="{{inputType}}" placeholder="Put your password" />
-  
-   <label><i class="material-icons" ng-click="hideShowPassword()">remove_red_eye</i></label>
+            <input type="{{inputType}}" ng-model="Password" placeholder="Password" />
+            <md-checkbox ng-click="hideShowPassword()" class="md-primary" ng-model="passwrdshideshow" aria-label="Checkbox 1">
+          Show/Hide password
+         </md-checkbox>
+            <!-- <label for="checkbox" ng-if="passwrdshideshow">Hide password</label>
+            <label for="checkbox" ng-if="!passwrdshideshow">Show password</label> -->
+
+   <!-- <label><i class="material-icons" ng-click="hideShowPassword()">remove_red_eye</i></label> -->
             <div ng-messages="affilateform.password.$error">
                <div ng-message="required">This is required.</div>
              </div>
@@ -60,7 +64,7 @@
            </md-dialog-content>
 
            <div>
-        <md-button type="submit" ng-click="save(user)" class="md-raised md-primary">Save</md-button>
+        <md-button type="submit" ng-click="updateApps(AppName,App_Description,App_URL,Username,Password,Status,App_ID,mode)" class="md-raised md-primary">Save</md-button>
         <md-button type="button" ng-click="cancel()">Cancel</md-button>
       </div>
          </form>

@@ -10,7 +10,7 @@
 
      $scope.fetchPredefinedApps = function(){
         return dataFactory.GetAffilatePredefinedApps().then(function(response) {
-        //  console.log("vccdc"+JSON.stringify(response.data))
+        console.log("vccdc"+JSON.stringify(response.data))
           $scope.allData = response.data.Data;
            });
     }
@@ -20,43 +20,145 @@
          $scope.affilatesApps = response.data.Data;
           });
    }
-
+   $scope.onChange = function(Status) {
+     alert(Status)
+     console.log(Status)
+       $scope.Status = Status;
+     };
+     $scope.clearForms = function(Status) {
+       $scope.Status = false;
+       $scope.AppName = null;
+       $scope.App_Description = null;
+       $scope.Username = null;
+       $scope.Password = null;
+       $scope.App_URL = null;
+       };
    // retrieve record to fill out the form
-$scope.showAppsFunction = function(id){
-alert(id)
-    // get product to be edited
-  //  productsFactory.readOneProduct(id).then(function successCallback(response){
+$scope.showAppsFunction = function(id,mode){
+  console.log(mode);
 
-        // put the values in form
-        // $scope.id = response.data.id;
-        // $scope.name = response.data.name;
-        // $scope.description = response.data.description;
-        // $scope.price = response.data.price;
+  $scope.mode = mode;
+    return dataFactory.readApps(id).then(function(response) {
+      console.log("-----" + JSON.stringify(response.data.Data))
+      $scope.Status = response.data.Data.Status;
+      $rootScope.AppName = response.data.Data.AppName
+      console.log("name"+$rootScope.AppName);
+    //  alert("##############"+$rootScope.App_Name);
+      $scope.App_Description = response.data.Data.App_Description;
+      $scope.Username = response.data.Data.Username;
+     //  var passString = response.data.Data.Password;
+     // passString.replace(/ /g, '');
+     //  alert(passString.replace(/ /g, ''))
+      $scope.Password = response.data.Data.Password;
+     console.log($scope.Password)
+      $scope.App_URL = response.data.Data.App_URL;
+      $scope.App_ID = response.data.Data.Affiliate_Apps_ID;
 
-        $mdDialog.show({
-            controller: 'showAppsController',
-            templateUrl: '../app/dashboard/showapps.html',
-            parent: angular.element(document.body),
-            clickOutsideToClose: true,
-            scope: $scope,
-            preserveScope: true,
-            fullscreen: true
-        }).then(
-            function(){},
+      $mdDialog.show({
+          controller: 'showAppsController',
+          templateUrl: '../app/dashboard/showapps.html',
+          parent: angular.element(document.body),
+          clickOutsideToClose: true,
+          scope: $scope,
+          preserveScope: true,
+          fullscreen: true
+      })
+       });
+ }
+ $rootScope.onChange = function(Status) {
+   alert(Status)
+   console.log(Status)
+     $scope.Status = Status;
+   };
+ $scope.showAffiliateApps = function(appId,mode){
+      console.log(appId);
+      console.log(mode);
+     return dataFactory.readApps(appId).then(function(response) {
+       console.log("after click" + JSON.stringify(response));
 
-            // user clicked 'Cancel'
-            function() {
-                // clear modal content
-              //  $scope.clearProductForm();
-            }
-        );
+       $scope.appData = response.data.Data;
+       $scope.Status = $scope.appData.Status;
+       $scope.AppName = $scope.appData.AppName;
+       $scope.App_Description = $scope.appData.App_Description;
+       $scope.App_URL = $scope.appData.App_URL;
+       $scope.Username = $scope.appData.Username;
+       $scope.Password = $scope.appData.Password;
+       $scope.App_ID = $scope.appData.App_ID;
+       $scope.mode = mode;
 
-//     }, function errorCallback(response){
-//         $scope.showToast("Unable to retrieve record.");
-//     });
-//
+
+
+
+
+       $mdDialog.show({
+           controller: 'showAppsController',
+           templateUrl: '../app/dashboard/showapps.html',
+           parent: angular.element(document.body),
+           clickOutsideToClose: true,
+           scope: $scope,
+           preserveScope: true,
+           fullscreen: true
+       })
+        });
+  }
+ $scope.AddAppsFunction = function(mode){
+   $scope.mode = mode;
+   console.log($scope.mode);
+   $mdDialog.show({
+       controller: 'showAppsController',
+       templateUrl: '../app/dashboard/showapps.html',
+       parent: angular.element(document.body),
+       clickOutsideToClose: true,
+       scope: $scope,
+       preserveScope: true,
+       fullscreen: true
+   });
  }
 
+// update product record / save changes
+$scope.updateApps = function(AppName,AppDescription,AppURL,Username,Password,Status,appId,mode){
+  console.log(mode);
+
+  $scope.mode = mode;
+if($scope.mode == 'update'){
+  console.log("up");
+  var appData = {
+    Affiliate_Apps_ID : appId,
+    AppName: AppName,
+    App_Description:AppDescription,
+    Username:Username,
+    Password:Password,
+    App_URL:AppURL,
+    Status:Status
+  };
+}
+
+if($scope.mode == 'create'){
+  console.log("cr");
+  console.log(Status);
+  var appData = {
+    AppName: AppName,
+    App_Description:AppDescription,
+    Username:Username,
+    Password:Password,
+    App_URL:AppURL,
+    Status:Status
+  };
+}
+
+  console.log(JSON.stringify(appData));
+  $http.post('https://demo.beanlogin.com/BeanLoginAPI/api/v1/BeanLogin/saveAffiliateApps', appData).
+   then(function(response) {
+     console.log(JSON.stringify(response));
+     $scope.fetchaffiliateapps();
+     $scope.clearForms();
+     $mdDialog.hide();
+   }, function(response) {});
+
+
+
+
+}
        $scope.appData = {
          "data": {
            "Status": true,
@@ -521,401 +623,407 @@ alert(id)
           console.log("method called");
 
 
+          $http.get('https://demo.beanlogin.com/BeanLoginAPI/api/v1/BeanLogin/GetAffilateData').
+           then(function(response) {
+             console.log(JSON.stringify(response));
+           //$scope.appData  = response;
 
-$scope.appData = {
-  "data": {
-    "Status": true,
-    "Errors": null,
-    "Data": {
-      "UserActivities": [
-        {
-          "Affiliate_Apps":"Amazon US",
-          "Affiliate_Apps_ID": 1,
-          "User_Activities_ID": 1,
-          "No_of_Clicks": 10,
-          "No_of_unique_clicks": 5,
-          "No_of_Conversion": 10,
-          "Conversion_percentage": 50,
-          "Lat_Long": 10.5,
-          "Day": "Mon",
-          "Date": "01-08-2018"
-        },
-        {
-          "Affiliate_Apps":"Amazon US",
-          "Affiliate_Apps_ID": 1,
-          "User_Activities_ID": 2,
-          "No_of_Clicks": 20,
-          "No_of_unique_clicks": 10,
-          "No_of_Conversion": 15,
-          "Conversion_percentage": 40,
-          "Lat_Long": 10.5,
-          "Day": "Tue",
-          "Date": "02-08-2018"
-        },
-        {
-          "Affiliate_Apps":"Amazon US",
-          "Affiliate_Apps_ID": 1,
-          "User_Activities_ID": 3,
-          "No_of_Clicks": 30,
-          "No_of_unique_clicks": 15,
-          "No_of_Conversion": 20,
-          "Conversion_percentage": 60,
-          "Lat_Long": 20.5,
-          "Day": "Wed",
-          "Date": "03-08-2018"
-        },
-        {
-          "Affiliate_Apps":"Amazon US",
-          "Affiliate_Apps_ID": 1,
-          "User_Activities_ID": 3,
-          "No_of_Clicks": 30,
-          "No_of_unique_clicks": 15,
-          "No_of_Conversion": 20,
-          "Conversion_percentage": 60,
-          "Lat_Long": 20.5,
-          "Day": "Wed",
-          "Date": "03-08-2018"
-        },
-        {
-          "Affiliate_Apps":"Amazon US",
-          "Affiliate_Apps_ID": 1,
-          "User_Activities_ID": 3,
-          "No_of_Clicks": 30,
-          "No_of_unique_clicks": 15,
-          "No_of_Conversion": 20,
-          "Conversion_percentage": 60,
-          "Lat_Long": 20.5,
-          "Day": "Wed",
-          "Date": "03-08-2018"
-        },
-        {
-          "Affiliate_Apps":"Amazon US",
-          "Affiliate_Apps_ID": 1,
-          "User_Activities_ID": 3,
-          "No_of_Clicks": 30,
-          "No_of_unique_clicks": 15,
-          "No_of_Conversion": 20,
-          "Conversion_percentage": 60,
-          "Lat_Long": 20.5,
-          "Day": "Wed",
-          "Date": "03-08-2018"
-        },
-        {
-          "Affiliate_Apps":"Amazon US",
-          "Affiliate_Apps_ID": 1,
-          "User_Activities_ID": 3,
-          "No_of_Clicks": 30,
-          "No_of_unique_clicks": 15,
-          "No_of_Conversion": 20,
-          "Conversion_percentage": 60,
-          "Lat_Long": 20.5,
-          "Day": "Wed",
-          "Date": "03-08-2018"
-        },
-        ////////////////////////////////////////////////////////////////////
-        {
-            "Affiliate_Apps":"Amazon INDIA",
-          "Affiliate_Apps_ID": 2,
-          "User_Activities_ID": 1,
-          "No_of_Clicks": 40,
-          "No_of_unique_clicks": 5,
-          "No_of_Conversion": 10,
-          "Conversion_percentage": 50,
-          "Lat_Long": 10.5,
-          "Day": "Mon",
-          "Date": "01-08-2018"
-        },
-        {
-            "Affiliate_Apps":"Amazon INDIA",
-          "Affiliate_Apps_ID": 2,
-          "User_Activities_ID": 1,
-          "No_of_Clicks": 40,
-          "No_of_unique_clicks": 5,
-          "No_of_Conversion": 10,
-          "Conversion_percentage": 50,
-          "Lat_Long": 10.5,
-          "Day": "Mon",
-          "Date": "01-08-2018"
-        },
-        {
-            "Affiliate_Apps":"Amazon INDIA",
-          "Affiliate_Apps_ID": 2,
-          "User_Activities_ID": 1,
-          "No_of_Clicks": 40,
-          "No_of_unique_clicks": 5,
-          "No_of_Conversion": 10,
-          "Conversion_percentage": 50,
-          "Lat_Long": 10.5,
-          "Day": "Mon",
-          "Date": "01-08-2018"
-        },
+           }, function(response) {});
 
-        {
-            "Affiliate_Apps":"Amazon INDIA",
-          "Affiliate_Apps_ID": 2,
-          "User_Activities_ID": 1,
-          "No_of_Clicks": 40,
-          "No_of_unique_clicks": 5,
-          "No_of_Conversion": 10,
-          "Conversion_percentage": 50,
-          "Lat_Long": 10.5,
-          "Day": "Mon",
-          "Date": "01-08-2018"
-        },
-        //////////////////////////////////////////////////////
-        {
-            "Affiliate_Apps":"Amazon INDIA",
-          "Affiliate_Apps_ID": 3,
-          "User_Activities_ID": 1,
-          "No_of_Clicks": 120,
-          "No_of_unique_clicks": 5,
-          "No_of_Conversion": 10,
-          "Conversion_percentage": 50,
-          "Lat_Long": 10.5,
-          "Day": "Mon",
-          "Date": "01-08-2018"
-        },
-        {
-            "Affiliate_Apps":"Amazon INDIA",
-          "Affiliate_Apps_ID": 3,
-          "User_Activities_ID": 2,
-          "No_of_Clicks": 140,
-          "No_of_unique_clicks": 10,
-          "No_of_Conversion": 15,
-          "Conversion_percentage": 40,
-          "Lat_Long": 10.5,
-          "Day": "Tue",
-          "Date": "02-08-2018"
-        },
-        {
-          "Affiliate_Apps_ID": 3,
-          "User_Activities_ID": 3,
-          "No_of_Clicks": 190,
-          "No_of_unique_clicks": 15,
-          "No_of_Conversion": 20,
-          "Conversion_percentage": 60,
-          "Lat_Long": 20.5,
-          "Day": "Wed",
-          "Date": "03-08-2018"
-        },
-        {
-          "Affiliate_Apps":"Amazon INDIA",
-          "Affiliate_Apps_ID": 3,
-          "User_Activities_ID": 2,
-          "No_of_Clicks": 140,
-          "No_of_unique_clicks": 10,
-          "No_of_Conversion": 15,
-          "Conversion_percentage": 40,
-          "Lat_Long": 10.5,
-          "Day": "Tue",
-          "Date": "02-08-2018"
-        },
-        {
-          "Affiliate_Apps":"Amazon USA",
-          "Affiliate_Apps_ID": 3,
-          "User_Activities_ID": 3,
-          "No_of_Clicks": 190,
-          "No_of_unique_clicks": 15,
-          "No_of_Conversion": 20,
-          "Conversion_percentage": 60,
-          "Lat_Long": 20.5,
-          "Day": "Wed",
-          "Date": "03-08-2018"
-        },
-        {
-          "Affiliate_Apps":"Amazon INDIA",
-          "Affiliate_Apps_ID": 3,
-          "User_Activities_ID": 2,
-          "No_of_Clicks": 140,
-          "No_of_unique_clicks": 10,
-          "No_of_Conversion": 15,
-          "Conversion_percentage": 40,
-          "Lat_Long": 10.5,
-          "Day": "Tue",
-          "Date": "02-08-2018"
-        },
-        {
-          "Affiliate_Apps":"Amazon INDIA",
-          "Affiliate_Apps_ID": 3,
-          "User_Activities_ID": 2,
-          "No_of_Clicks": 140,
-          "No_of_unique_clicks": 10,
-          "No_of_Conversion": 15,
-          "Conversion_percentage": 40,
-          "Lat_Long": 10.5,
-          "Day": "Tue",
-          "Date": "02-08-2018"
-        },
-        //////////////////////////////////////
-        {
-          "Affiliate_Apps":"Amazon US",
-          "Affiliate_Apps_ID": 4,
-          "User_Activities_ID": 1,
-          "No_of_Clicks": 280,
-          "No_of_unique_clicks": 5,
-          "No_of_Conversion": 10,
-          "Conversion_percentage": 50,
-          "Lat_Long": 10.5,
-          "Day": "Mon",
-          "Date": "01-08-2018"
-        },
-        {
-          "Affiliate_Apps":"Amazon",
-          "Affiliate_Apps_ID": 4,
-          "User_Activities_ID": 1,
-          "No_of_Clicks": 280,
-          "No_of_unique_clicks": 5,
-          "No_of_Conversion": 10,
-          "Conversion_percentage": 50,
-          "Lat_Long": 10.5,
-          "Day": "Mon",
-          "Date": "01-08-2018"
-        },
-        {
-          "Affiliate_Apps":"Myntra",
-          "Affiliate_Apps_ID": 4,
-          "User_Activities_ID": 2,
-          "No_of_Clicks": 370,
-          "No_of_unique_clicks": 10,
-          "No_of_Conversion": 15,
-          "Conversion_percentage": 40,
-          "Lat_Long": 10.5,
-          "Day": "Tue",
-          "Date": "02-08-2018"
-        },
-        {
-          "Affiliate_Apps":"Amazon",
-          "Affiliate_Apps_ID": 4,
-          "User_Activities_ID": 3,
-          "No_of_Clicks": 410,
-          "No_of_unique_clicks": 15,
-          "No_of_Conversion": 20,
-          "Conversion_percentage": 60,
-          "Lat_Long": 20.5,
-          "Day": "Wed",
-          "Date": "03-08-2018"
-        },
-        {
-          "Affiliate_Apps":"Snapdeal",
-          "Affiliate_Apps_ID": 4,
-          "User_Activities_ID": 1,
-          "No_of_Clicks": 280,
-          "No_of_unique_clicks": 5,
-          "No_of_Conversion": 10,
-          "Conversion_percentage": 50,
-          "Lat_Long": 10.5,
-          "Day": "Mon",
-          "Date": "01-08-2018"
-        },
-        {
-          "Affiliate_Apps":"Flipkart",
-          "Affiliate_Apps_ID": 4,
-          "User_Activities_ID": 1,
-          "No_of_Clicks": 180,
-          "No_of_unique_clicks": 5,
-          "No_of_Conversion": 10,
-          "Conversion_percentage": 50,
-          "Lat_Long": 10.5,
-          "Day": "Mon",
-          "Date": "01-08-2018"
-        },
-        {
-          "Affiliate_Apps":"Amazon India",
-          "Affiliate_Apps_ID": 4,
-          "User_Activities_ID": 1,
-          "No_of_Clicks": 480,
-          "No_of_unique_clicks": 5,
-          "No_of_Conversion": 10,
-          "Conversion_percentage": 50,
-          "Lat_Long": 10.5,
-          "Day": "Mon",
-          "Date": "01-08-2018"
-        }
-
-      ],
-      "Devicetrack": [
-        {
-          "Affiliate_Apps_ID": 1,
-          "Device_track_ID": 1,
-          "Desktop_count": 10,
-          "Iphone_count": 15,
-          "Andorid_count": 20,
-          "Ipad_count": 30,
-          "Other_devices": 40,
-          "Windows_phone": 35,
-          "Thirdparty_Apps_ID": 50,
-          "Day": "Mon",
-          "Date": "01-08-2018"
-        },
-        {
-          "Affiliate_Apps_ID": 1,
-          "Device_track_ID": 3,
-          "Desktop_count": 30,
-          "Iphone_count": 25,
-          "Andorid_count": 30,
-          "Ipad_count": 50,
-          "Other_devices": 40,
-          "Windows_phone": 35,
-          "Thirdparty_Apps_ID": 50,
-          "Day": "Wed",
-          "Date": "03-08-2018"
-        }
-      ],
-      "AffiliatePayments": [
-        {
-          "Affiliate_Apps_ID": 1,
-          "Payment_ID": 1,
-          "No_of_Conversion": 10,
-          "Percentage_per_conv": 50,
-          "Payment_per_conv": 20,
-          "Total_payment": 70,
-          "Thirdparty_Apps_ID": 1,
-          "Day": "Mon",
-          "Date": "01-08-2018"
-        },
-        {
-          "Affiliate_Apps_ID": 1,
-          "Payment_ID": 2,
-          "No_of_Conversion": 20,
-          "Percentage_per_conv": 40,
-          "Payment_per_conv": 10,
-          "Total_payment": 80,
-          "Thirdparty_Apps_ID": 2,
-          "Day": "Tue",
-          "Date": "02-08-2018"
-        },
-        {
-          "Affiliate_Apps_ID": 1,
-          "Payment_ID": 3,
-          "No_of_Conversion": 30,
-          "Percentage_per_conv": 60,
-          "Payment_per_conv": 30,
-          "Total_payment": 60,
-          "Thirdparty_Apps_ID": 3,
-          "Day": "Wed",
-          "Date": "03-08-2018"
-        }
-      ]
-    }
-  },
-  "status": 200,
-  "config": {
-    "method": "GET",
-    "transformRequest": [
-      null
-    ],
-    "transformResponse": [
-      null
-    ],
-    "jsonpCallbackParam": "callback",
-    "url": "https://demo.beanlogin.com/BeanLoginAPI/api/v1/BeanLogin/GetAffilateData",
-    "headers": {
-      "Accept": "application/json, text/plain, */*"
-    }
-  },
-  "statusText": "OK",
-  "xhrStatus": "complete"
-};
+// $scope.appData = {
+//   "data": {
+//     "Status": true,
+//     "Errors": null,
+//     "Data": {
+//       "UserActivities": [
+//         {
+//           "Affiliate_Apps":"Amazon US",
+//           "Affiliate_Apps_ID": 1,
+//           "User_Activities_ID": 1,
+//           "No_of_Clicks": 10,
+//           "No_of_unique_clicks": 5,
+//           "No_of_Conversion": 10,
+//           "Conversion_percentage": 50,
+//           "Lat_Long": 10.5,
+//           "Day": "Mon",
+//           "Date": "01-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps":"Amazon US",
+//           "Affiliate_Apps_ID": 1,
+//           "User_Activities_ID": 2,
+//           "No_of_Clicks": 20,
+//           "No_of_unique_clicks": 10,
+//           "No_of_Conversion": 15,
+//           "Conversion_percentage": 40,
+//           "Lat_Long": 10.5,
+//           "Day": "Tue",
+//           "Date": "02-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps":"Amazon US",
+//           "Affiliate_Apps_ID": 1,
+//           "User_Activities_ID": 3,
+//           "No_of_Clicks": 30,
+//           "No_of_unique_clicks": 15,
+//           "No_of_Conversion": 20,
+//           "Conversion_percentage": 60,
+//           "Lat_Long": 20.5,
+//           "Day": "Wed",
+//           "Date": "03-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps":"Amazon US",
+//           "Affiliate_Apps_ID": 1,
+//           "User_Activities_ID": 3,
+//           "No_of_Clicks": 30,
+//           "No_of_unique_clicks": 15,
+//           "No_of_Conversion": 20,
+//           "Conversion_percentage": 60,
+//           "Lat_Long": 20.5,
+//           "Day": "Wed",
+//           "Date": "03-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps":"Amazon US",
+//           "Affiliate_Apps_ID": 1,
+//           "User_Activities_ID": 3,
+//           "No_of_Clicks": 30,
+//           "No_of_unique_clicks": 15,
+//           "No_of_Conversion": 20,
+//           "Conversion_percentage": 60,
+//           "Lat_Long": 20.5,
+//           "Day": "Wed",
+//           "Date": "03-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps":"Amazon US",
+//           "Affiliate_Apps_ID": 1,
+//           "User_Activities_ID": 3,
+//           "No_of_Clicks": 30,
+//           "No_of_unique_clicks": 15,
+//           "No_of_Conversion": 20,
+//           "Conversion_percentage": 60,
+//           "Lat_Long": 20.5,
+//           "Day": "Wed",
+//           "Date": "03-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps":"Amazon US",
+//           "Affiliate_Apps_ID": 1,
+//           "User_Activities_ID": 3,
+//           "No_of_Clicks": 30,
+//           "No_of_unique_clicks": 15,
+//           "No_of_Conversion": 20,
+//           "Conversion_percentage": 60,
+//           "Lat_Long": 20.5,
+//           "Day": "Wed",
+//           "Date": "03-08-2018"
+//         },
+//         ////////////////////////////////////////////////////////////////////
+//         {
+//             "Affiliate_Apps":"Amazon INDIA",
+//           "Affiliate_Apps_ID": 2,
+//           "User_Activities_ID": 1,
+//           "No_of_Clicks": 40,
+//           "No_of_unique_clicks": 5,
+//           "No_of_Conversion": 10,
+//           "Conversion_percentage": 50,
+//           "Lat_Long": 10.5,
+//           "Day": "Mon",
+//           "Date": "01-08-2018"
+//         },
+//         {
+//             "Affiliate_Apps":"Amazon INDIA",
+//           "Affiliate_Apps_ID": 2,
+//           "User_Activities_ID": 1,
+//           "No_of_Clicks": 40,
+//           "No_of_unique_clicks": 5,
+//           "No_of_Conversion": 10,
+//           "Conversion_percentage": 50,
+//           "Lat_Long": 10.5,
+//           "Day": "Mon",
+//           "Date": "01-08-2018"
+//         },
+//         {
+//             "Affiliate_Apps":"Amazon INDIA",
+//           "Affiliate_Apps_ID": 2,
+//           "User_Activities_ID": 1,
+//           "No_of_Clicks": 40,
+//           "No_of_unique_clicks": 5,
+//           "No_of_Conversion": 10,
+//           "Conversion_percentage": 50,
+//           "Lat_Long": 10.5,
+//           "Day": "Mon",
+//           "Date": "01-08-2018"
+//         },
+//
+//         {
+//             "Affiliate_Apps":"Amazon INDIA",
+//           "Affiliate_Apps_ID": 2,
+//           "User_Activities_ID": 1,
+//           "No_of_Clicks": 40,
+//           "No_of_unique_clicks": 5,
+//           "No_of_Conversion": 10,
+//           "Conversion_percentage": 50,
+//           "Lat_Long": 10.5,
+//           "Day": "Mon",
+//           "Date": "01-08-2018"
+//         },
+//         //////////////////////////////////////////////////////
+//         {
+//             "Affiliate_Apps":"Amazon INDIA",
+//           "Affiliate_Apps_ID": 3,
+//           "User_Activities_ID": 1,
+//           "No_of_Clicks": 120,
+//           "No_of_unique_clicks": 5,
+//           "No_of_Conversion": 10,
+//           "Conversion_percentage": 50,
+//           "Lat_Long": 10.5,
+//           "Day": "Mon",
+//           "Date": "01-08-2018"
+//         },
+//         {
+//             "Affiliate_Apps":"Amazon INDIA",
+//           "Affiliate_Apps_ID": 3,
+//           "User_Activities_ID": 2,
+//           "No_of_Clicks": 140,
+//           "No_of_unique_clicks": 10,
+//           "No_of_Conversion": 15,
+//           "Conversion_percentage": 40,
+//           "Lat_Long": 10.5,
+//           "Day": "Tue",
+//           "Date": "02-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps_ID": 3,
+//           "User_Activities_ID": 3,
+//           "No_of_Clicks": 190,
+//           "No_of_unique_clicks": 15,
+//           "No_of_Conversion": 20,
+//           "Conversion_percentage": 60,
+//           "Lat_Long": 20.5,
+//           "Day": "Wed",
+//           "Date": "03-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps":"Amazon INDIA",
+//           "Affiliate_Apps_ID": 3,
+//           "User_Activities_ID": 2,
+//           "No_of_Clicks": 140,
+//           "No_of_unique_clicks": 10,
+//           "No_of_Conversion": 15,
+//           "Conversion_percentage": 40,
+//           "Lat_Long": 10.5,
+//           "Day": "Tue",
+//           "Date": "02-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps":"Amazon USA",
+//           "Affiliate_Apps_ID": 3,
+//           "User_Activities_ID": 3,
+//           "No_of_Clicks": 190,
+//           "No_of_unique_clicks": 15,
+//           "No_of_Conversion": 20,
+//           "Conversion_percentage": 60,
+//           "Lat_Long": 20.5,
+//           "Day": "Wed",
+//           "Date": "03-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps":"Amazon INDIA",
+//           "Affiliate_Apps_ID": 3,
+//           "User_Activities_ID": 2,
+//           "No_of_Clicks": 140,
+//           "No_of_unique_clicks": 10,
+//           "No_of_Conversion": 15,
+//           "Conversion_percentage": 40,
+//           "Lat_Long": 10.5,
+//           "Day": "Tue",
+//           "Date": "02-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps":"Amazon INDIA",
+//           "Affiliate_Apps_ID": 3,
+//           "User_Activities_ID": 2,
+//           "No_of_Clicks": 140,
+//           "No_of_unique_clicks": 10,
+//           "No_of_Conversion": 15,
+//           "Conversion_percentage": 40,
+//           "Lat_Long": 10.5,
+//           "Day": "Tue",
+//           "Date": "02-08-2018"
+//         },
+//         //////////////////////////////////////
+//         {
+//           "Affiliate_Apps":"Amazon US",
+//           "Affiliate_Apps_ID": 4,
+//           "User_Activities_ID": 1,
+//           "No_of_Clicks": 280,
+//           "No_of_unique_clicks": 5,
+//           "No_of_Conversion": 10,
+//           "Conversion_percentage": 50,
+//           "Lat_Long": 10.5,
+//           "Day": "Mon",
+//           "Date": "01-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps":"Amazon",
+//           "Affiliate_Apps_ID": 4,
+//           "User_Activities_ID": 1,
+//           "No_of_Clicks": 280,
+//           "No_of_unique_clicks": 5,
+//           "No_of_Conversion": 10,
+//           "Conversion_percentage": 50,
+//           "Lat_Long": 10.5,
+//           "Day": "Mon",
+//           "Date": "01-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps":"Myntra",
+//           "Affiliate_Apps_ID": 4,
+//           "User_Activities_ID": 2,
+//           "No_of_Clicks": 370,
+//           "No_of_unique_clicks": 10,
+//           "No_of_Conversion": 15,
+//           "Conversion_percentage": 40,
+//           "Lat_Long": 10.5,
+//           "Day": "Tue",
+//           "Date": "02-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps":"Amazon",
+//           "Affiliate_Apps_ID": 4,
+//           "User_Activities_ID": 3,
+//           "No_of_Clicks": 410,
+//           "No_of_unique_clicks": 15,
+//           "No_of_Conversion": 20,
+//           "Conversion_percentage": 60,
+//           "Lat_Long": 20.5,
+//           "Day": "Wed",
+//           "Date": "03-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps":"Snapdeal",
+//           "Affiliate_Apps_ID": 4,
+//           "User_Activities_ID": 1,
+//           "No_of_Clicks": 280,
+//           "No_of_unique_clicks": 5,
+//           "No_of_Conversion": 10,
+//           "Conversion_percentage": 50,
+//           "Lat_Long": 10.5,
+//           "Day": "Mon",
+//           "Date": "01-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps":"Flipkart",
+//           "Affiliate_Apps_ID": 4,
+//           "User_Activities_ID": 1,
+//           "No_of_Clicks": 180,
+//           "No_of_unique_clicks": 5,
+//           "No_of_Conversion": 10,
+//           "Conversion_percentage": 50,
+//           "Lat_Long": 10.5,
+//           "Day": "Mon",
+//           "Date": "01-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps":"Amazon India",
+//           "Affiliate_Apps_ID": 4,
+//           "User_Activities_ID": 1,
+//           "No_of_Clicks": 480,
+//           "No_of_unique_clicks": 5,
+//           "No_of_Conversion": 10,
+//           "Conversion_percentage": 50,
+//           "Lat_Long": 10.5,
+//           "Day": "Mon",
+//           "Date": "01-08-2018"
+//         }
+//
+//       ],
+//       "Devicetrack": [
+//         {
+//           "Affiliate_Apps_ID": 1,
+//           "Device_track_ID": 1,
+//           "Desktop_count": 10,
+//           "Iphone_count": 15,
+//           "Andorid_count": 20,
+//           "Ipad_count": 30,
+//           "Other_devices": 40,
+//           "Windows_phone": 35,
+//           "Thirdparty_Apps_ID": 50,
+//           "Day": "Mon",
+//           "Date": "01-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps_ID": 1,
+//           "Device_track_ID": 3,
+//           "Desktop_count": 30,
+//           "Iphone_count": 25,
+//           "Andorid_count": 30,
+//           "Ipad_count": 50,
+//           "Other_devices": 40,
+//           "Windows_phone": 35,
+//           "Thirdparty_Apps_ID": 50,
+//           "Day": "Wed",
+//           "Date": "03-08-2018"
+//         }
+//       ],
+//       "AffiliatePayments": [
+//         {
+//           "Affiliate_Apps_ID": 1,
+//           "Payment_ID": 1,
+//           "No_of_Conversion": 10,
+//           "Percentage_per_conv": 50,
+//           "Payment_per_conv": 20,
+//           "Total_payment": 70,
+//           "Thirdparty_Apps_ID": 1,
+//           "Day": "Mon",
+//           "Date": "01-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps_ID": 1,
+//           "Payment_ID": 2,
+//           "No_of_Conversion": 20,
+//           "Percentage_per_conv": 40,
+//           "Payment_per_conv": 10,
+//           "Total_payment": 80,
+//           "Thirdparty_Apps_ID": 2,
+//           "Day": "Tue",
+//           "Date": "02-08-2018"
+//         },
+//         {
+//           "Affiliate_Apps_ID": 1,
+//           "Payment_ID": 3,
+//           "No_of_Conversion": 30,
+//           "Percentage_per_conv": 60,
+//           "Payment_per_conv": 30,
+//           "Total_payment": 60,
+//           "Thirdparty_Apps_ID": 3,
+//           "Day": "Wed",
+//           "Date": "03-08-2018"
+//         }
+//       ]
+//     }
+//   },
+//   "status": 200,
+//   "config": {
+//     "method": "GET",
+//     "transformRequest": [
+//       null
+//     ],
+//     "transformResponse": [
+//       null
+//     ],
+//     "jsonpCallbackParam": "callback",
+//     "url": "https://demo.beanlogin.com/BeanLoginAPI/api/v1/BeanLogin/GetAffilateData",
+//     "headers": {
+//       "Accept": "application/json, text/plain, */*"
+//     }
+//   },
+//   "statusText": "OK",
+//   "xhrStatus": "complete"
+// };
 
   $scope.clicksTotal = 0;
   $scope.convTotal = 0;

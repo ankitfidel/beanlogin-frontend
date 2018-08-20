@@ -13,6 +13,7 @@
         <i class="fa fa-2x text-grey fa-th" ng-class={'text-primary':grid} ng-click="grid = true; list = false" style="outline: 0;opacity: 0.5;padding-left: 8px; margin-left:10px;"  ></i>
         <i class="fa fa-2x text-grey  fa-sort-alpha-asc" ng-click ="toggleOrder()" ng-class={'text-primary':sortReverse} style="outline: 0;opacity: 0.5;padding-left: 8px; margin-left:10px;"></i>
         <!-- <button class="btn btn-primary" style=" margin-left:10px;">App Catalog</button> -->
+        <button class="btn btn-primary" ng-click="AddAppsFunction('create')" style=" margin-left:10px;">Add Apps</button>
       </div>
   </div>
   <section class="page-with-tabs">
@@ -22,24 +23,25 @@
               <md-tab-body >
                 <div class="row" ng-show="list" ng-init="fetchaffiliateapps()">
                   <div class="col-lg-12" ng-repeat="affilatesApps in affilatesApps | filter:txtsearch | orderBy:sortType:sortReverse">
-                    <div class="ih-item square effect3 bottom_to_top row">
+                    <div class="ih-item square effect3 bottom_to_top row text-center">
                       <div class="col-lg-2">
-                        <a  ng-click = "showAppsFunction(affilatesApps.Affiliate_Apps_ID)" ng-init="">
-                          <img src="assets/icons/{{affilatesApps.Affiliate_Apps}}.png" style="margin-left: 28px;">
+                        <a  ng-click = "showAppsFunction(affilatesApps.Affiliate_Apps_ID,'update')" ng-init="">
+                          <img src="{{affilatesApps.AppIcon}}" >
                         </a>
                       </div>
                       <div class="col-lg-10">
-                        <p>{{affilatesApps.App_Name}}</p>
+                        <p>{{affilatesApps.AppName}}</p>
                       </div>
                     </div>
                   </div>
                         </div>
             <div class="row" ng-show="grid" ng-init="fetchaffiliateapps()">
               <div class="col-lg-2" ng-repeat="affilatesApps in affilatesApps | filter:txtsearch | orderBy:sortType:sortReverse">
-                <div class="ih-item square effect3 bottom_to_top">
-                    <a  ng-click = "showAppsFunction(affilatesApps.Affiliate_Apps_ID)" ng-init="">
-                      {{affilatesApps.App_Name}}
-                      <img src="assets/icons/{{affilatesApps.Affiliate_Apps}}.png" style="margin-left: 28px;">
+                <div class="ih-item square  effect3 bottom_to_top text-center">
+                    <a  ng-click = "showAppsFunction(affilatesApps.Affiliate_Apps_ID,'update')" ng-init="">
+
+                      <img src="{{affilatesApps.AppIcon}}" onerror="this.onerror=null;this.src='http://placehold.it/50x50'" ><br />
+                      <span style="padding:8px 0; display:block">{{affilatesApps.AppName}}</span>
                     </a>
                 </div>
               </div>
@@ -51,11 +53,13 @@
               <md-tab-body >
                 <div class="row" ng-init="fetchPredefinedApps()">
                   <div class="col-lg-2" ng-repeat="activites in allData | filter:txtsearch | orderBy:sortType:sortReverse">
-                    <div class="ih-item square effect3 bottom_to_top">
+                    <div class="ih-item square effect3 bottom_to_top text-center">
 
-                        <a  ng-click="showGmail($event,activites)">
-{{activites.AppName}}
-                          <img src="{{activites.AppIcon}}" style="margin-left: 28px;">
+                        <a   ng-click="showAffiliateApps(activites.Affiliate_Apps_ID,'update')">
+
+                          <!-- <img src="{{activites.AppIcon}}" style="margin-left: 28px;"> -->
+                            <img src="{{activites.AppIcon}}" onerror="this.onerror=null;this.src='http://placehold.it/50x50'" ><br />
+                            {{activites.AppName}}
                         </a>
                     </div>
                   </div>
