@@ -1,71 +1,77 @@
-       <md-dialog  class="customdialogaffilate"  ng-controller="DialogController" >
-         <form ng-cloak name="affilateform">
-           <md-toolbar>
-             <div class="md-toolbar-tools">
-               <img src="assets/icons/BeanloginApp.png" alt="img" style="width: 21px;">
-               <h2 style="margin-left: 10px;">Affilate</h2>
-               <span flex></span>
-               <md-button class="md-icon-button" ng-click="cancel()">
-                 <i class="fa fa-times text-white" aria-label="Close dialog"></i>
-               </md-button>
-             </div>
-           </md-toolbar>
-
-           <md-dialog-content>
-             <div class="md-dialog-content">
-               <label>Enable</label>
-               <!-- <input ng-model="user.Status"> -->
-                <!-- <md-switch class="md-primary" name="special" ng-model="project.special" required style="margin-top: -26px;
-     margin-left: 115px;"></md-switch> -->
-     <md-switch class="md-primary" ng-model="Status" ng-click="onChange(Status)" aria-label="Switch 1" style="margin-top: -26px;margin-left: 115px;">
-
-  </md-switch>
-
-      <md-input-container class="md-block" flex-gt-xs>
-        <label>App Name</label>
-        <input type="text" ng-model="AppName">
-          </md-input-container>
-
-          <md-input-container class="md-block" flex-gt-xs>
-            <label>Description</label>
-           <textarea ng-model="App_Description" md-maxlength=""  rows="1" md-select-on-focus></textarea>
-           <div ng-messages="affilateform.App_Description.$error">
-              <div ng-message="required">This is required.</div>
+<md-dialog class="customdialogaffilate" ng-controller="DialogController">
+    <form ng-cloak name="affilateform" ng-submit="login(affilateform.$valid)">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <img src="assets/icons/BeanloginApp.png" alt="img" style="width: 21px;">
+                <h2 style="margin-left: 10px;">Affilate</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <i class="fa fa-times text-white" aria-label="Close dialog"></i>
+                </md-button>
             </div>
-          </md-input-container>
-          <md-input-container class="md-block" flex-gt-xs>
-            <label>App URL</label>
-            <input ng-model="App_URL">
-            <div ng-messages="affilateform.App_URL.$error">
-               <div ng-message="required">This is required.</div>
-             </div>
-          </md-input-container>
-          <md-input-container class="md-block" flex-gt-xs>
-            <label>Username{{mode}}</label>
-            <input ng-model="Username">
-            <div ng-messages="affilateform.Username.$error">
-               <div ng-message="required">This is required.</div>
-             </div>
-          </md-input-container>
-          <md-input-container class="md-block" flex-gt-xs>
-            <input type="{{inputType}}" ng-model="Password" placeholder="Password" />
-            <md-checkbox ng-click="hideShowPassword()" class="md-primary" ng-model="passwrdshideshow" aria-label="Checkbox 1">
-          Show/Hide password
-         </md-checkbox>
-            <!-- <label for="checkbox" ng-if="passwrdshideshow">Hide password</label>
-            <label for="checkbox" ng-if="!passwrdshideshow">Show password</label> -->
+        </md-toolbar>
 
-   <!-- <label><i class="material-icons" ng-click="hideShowPassword()">remove_red_eye</i></label> -->
-            <div ng-messages="affilateform.password.$error">
-               <div ng-message="required">This is required.</div>
-             </div>
-          </md-input-container>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+                <label>Enable </label>
+                <md-switch class="md-primary" ng-model="Status" ng-click="onChange(Status)" aria-label="Switch 1" style="margin-top: -26px;margin-left: 115px;">
 
-           </md-dialog-content>
+                </md-switch>
 
-           <div>
-        <md-button type="submit" ng-click="updateApps(AppName,App_Description,App_URL,Username,Password,Status,App_ID,mode)" class="md-raised md-primary">Save</md-button>
-        <md-button type="button" ng-click="cancel()">Cancel</md-button>
-      </div>
-         </form>
-       </md-dialog>
+                <div class="form-group" ng-class="{ 'has-error':affilateform.email.$invalid && !affilateform.email.$pristine }">
+                    <md-input-container class="md-block" flex-gt-xs>
+                        <label>App Name</label>
+                        <input type="text" name="email" ng-model="AppName" class="form-control" required>
+                        <p ng-show="affilateform.email.$invalid && !affilateform.email.$pristine" class="help-block">Enter a valid email.</p>
+                    </md-input-container>
+                </div>
+
+                <div class="form-group" ng-class="{ 'has-error':affilateform.description.$invalid && !affilateform.description.$pristine }">
+                    <md-input-container class="md-block" flex-gt-xs>
+                        <label>Description </label>
+                        <input type="text" name="description" ng-model="App_Description" class="form-control">
+                        <p ng-show="affilateform.description.$invalid && !affilateform.description.$pristine" class="help-block">Enter a valid description.</p>
+                    </md-input-container>
+                </div>
+
+                <div class="form-group" ng-class="{ 'has-error':affilateform.appurl.$invalid && !affilateform.appurl.$pristine }">
+                    <md-input-container class="md-block" flex-gt-xs>
+                    <div class="">
+                        <label>App URL</label>
+                        <input type="url" name="appurl" ng-model="App_URL" class="form-control col-sm-10" required>
+                    <md-button ng-disabled = "affilateform.appurl.$invalid" style="margin:0" class = "md-raised md-primary pull-right" ng-click ="openLink(App_URL)"> test </md-button>
+                   </div>
+                    <span ng-show="affilateform.appurl.$invalid && !affilateform.appurl.$pristine" style="clear:both" class="help-block">Enter a valid URL.</span>
+                    </md-input-container> 
+                </div>
+                 
+                 <div class="form-group" ng-class="{ 'has-error':affilateform.uername.$invalid && !affilateform.uername.$pristine }">
+                    <md-input-container class="md-block" flex-gt-xs>
+                        <label>Username</label>
+                        <input type="text" name="uername" ng-model="Username" class="form-control" required>
+                        <p ng-show="affilateform.uername.$invalid && !affilateform.uername.$pristine" class="help-block">Enter a valid Username.</p>
+                    </md-input-container>
+                </div>
+
+               
+                <md-input-container class="md-block" flex-gt-xs>
+                    <input type="{{inputType}}" ng-model="Password" placeholder="Password" required />
+                    <md-checkbox ng-click="hideShowPassword()" class="md-primary" ng-model="passwrdshideshow" aria-label="Checkbox 1">
+                        Show/Hide password
+                    </md-checkbox>
+                    <div ng-messages="affilateform.password.$error">
+                        <div ng-message="required">This is required.</div>
+                    </div>
+                </md-input-container>
+
+        </md-dialog-content>
+
+        <div>
+            <md-button type="submit" ng-click="updateApps(AppName,App_Description,App_URL,Username,Password,Status,App_ID,mode,affilateform.$valid)" class="md-raised md-primary">Save</md-button>
+        <md-button type="button" ng-click="cancel()">Cancel</md-button> 
+            
+
+            <span ng-show="appExist" style="color:red">App Exist</span>
+        </div>
+    </form>
+</md-dialog>

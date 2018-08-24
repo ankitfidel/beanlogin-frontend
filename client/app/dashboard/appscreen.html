@@ -1,9 +1,8 @@
-
-<div ng-controller="appsController" ng-init="grid = true">
+<div ng-controller="appsController" ng-init="grid = true ; sorting = 'AppName' ;descending = true;">
 <div class="row" style="margin-top:50px;margin-bottom:20px; margin-left: 20px;">
 
     <div class="input-group col-sm-6">
-    <input id="email" ng-model="txtsearch" type="text" class="form-control" name="email" placeholder="Email">
+    <input id="email" ng-model="txtsearch" type="text" class="form-control" name="email" placeholder="Apps">
     <span class="input-group-addon"><i class="fa fa-search"></i></span>
   </div>
 
@@ -11,56 +10,97 @@
     <div class="col-sm-6 col-lg-4">
      <i class="fa fa-2x text-grey fa-list" ng-class={'text-primary':list}  ng-click="grid = false; list = true" style="outline: 0;opacity: 0.5; margin-left:10px;padding-left: 20px;"></i>
         <i class="fa fa-2x text-grey fa-th" ng-class={'text-primary':grid} ng-click="grid = true; list = false" style="outline: 0;opacity: 0.5;padding-left: 8px; margin-left:10px;"  ></i>
-        <i class="fa fa-2x text-grey  fa-sort-alpha-asc" ng-click ="toggleOrder()" ng-class={'text-primary':sortReverse} style="outline: 0;opacity: 0.5;padding-left: 8px; margin-left:10px;"></i>
+        <i class="fa fa-2x text-grey  fa-sort-alpha-asc" ng-click ="toggleOrder('ascending')" ng-hide = "ascending" ng-class={'text-primary':!sortReverse} style="outline: 0;opacity: 0.5;padding-left: 8px; margin-left:10px;"></i>
+        <i class="fa fa-2x text-grey  fa-sort-alpha-desc " ng-click ="toggleOrder('descending')" ng-hide = "descending" ng-class={'text-primary':sortReverse} style="outline: 0;opacity: 0.5;padding-left: 8px; margin-left:10px;"></i>
+        
         <!-- <button class="btn btn-primary" style=" margin-left:10px;">App Catalog</button> -->
-        <button class="btn btn-primary" ng-click="AddAppsFunction('create')" style=" margin-left:10px;">Add Apps</button>
+        <button class="btn btn-primary" ng-disabled = "disableAddButton" ng-click="AddAppsFunction('create')" style=" margin-left:10px; margin-top: -10px;">Add Apps</button>
       </div>
   </div>
   <section class="page-with-tabs">
       <md-tabs md-dynamic-height>
-          <md-tab>
+          <md-tab ng-click = "disableAddButton = false">
               <md-tab-label>Supported</md-tab-label>
               <md-tab-body >
                 <div class="row" ng-show="list" ng-init="fetchaffiliateapps()">
-                  <div class="col-lg-12" ng-repeat="affilatesApps in affilatesApps | filter:txtsearch | orderBy:sortType:sortReverse">
-                    <div class="ih-item square effect3 bottom_to_top row text-center">
-                      <div class="col-lg-2">
-                        <a  ng-click = "showAppsFunction(affilatesApps.Affiliate_Apps_ID,'update')" ng-init="">
+                  <div class="col-lg-12" data-ng-repeat="affilatesApps in affilatesApps | filter:txtsearch | orderBy: sorting">
+                    <div class="ih-item square list effect3 bottom_to_top row text-center" ng-click = "showAppsFunction(affilatesApps.Affiliate_Apps_ID,'update')">
+                      <div class="col-lg-3 text-left" >
+                        <a ng-init="">
                           <img src="{{affilatesApps.AppIcon}}" >
                         </a>
                       </div>
-                      <div class="col-lg-10">
-                        <p>{{affilatesApps.AppName}}</p>
+                      <div class="col-lg-3">
+                        <p class="text-left">{{affilatesApps.AppName}}</p>
+                      </div>
+                      <div class="row col-lg-6">
+                      <div class="col-lg-6">
+                      
+                        <p class="text-left">{{affilatesApps.AppName}}</p>
+                      </div> 
+                      <div class="col-lg-6">
+                      
+                        <p class="text-left">{{affilatesApps.AppName}}</p>
+                      </div>  
                       </div>
                     </div>
                   </div>
-                        </div>
+               </div>
             <div class="row" ng-show="grid" ng-init="fetchaffiliateapps()">
-              <div class="col-lg-2" ng-repeat="affilatesApps in affilatesApps | filter:txtsearch | orderBy:sortType:sortReverse">
-                <div class="ih-item square  effect3 bottom_to_top text-center">
-                    <a  ng-click = "showAppsFunction(affilatesApps.Affiliate_Apps_ID,'update')" ng-init="">
+              <div class="col-lg-2" ng-repeat="affilatesApps in affilatesApps | filter:txtsearch | orderBy: sorting">
+                <div class="ih-item square  effect3 bottom_to_top text-center" ng-click = "showAppsFunction(affilatesApps.Affiliate_Apps_ID,'update')">
+                    <div>
 
-                      <img src="{{affilatesApps.AppIcon}}" onerror="this.onerror=null;this.src='http://placehold.it/50x50'" ><br />
+                      <img src="{{affilatesApps.AppIcon}}" ><br />
                       <span style="padding:8px 0; display:block">{{affilatesApps.AppName}}</span>
-                    </a>
+                    </div>
                 </div>
               </div>
                     </div>
               </md-tab-body>
           </md-tab>
-          <md-tab>
-              <md-tab-label>My affilates</md-tab-label>
+          <md-tab ng-click = "disableAddButton = true">
+              <md-tab-label>Active Affilates</md-tab-label>
               <md-tab-body >
-                <div class="row" ng-init="fetchPredefinedApps()">
-                  <div class="col-lg-2" ng-repeat="activites in allData | filter:txtsearch | orderBy:sortType:sortReverse">
-                    <div class="ih-item square effect3 bottom_to_top text-center">
+              <div class="row" ng-show="list" ng-init="fetchaffiliateapps()">
+                  <div class="col-lg-12" data-ng-repeat="activites in myAppsData | filter:txtsearch | orderBy: sorting">
+                    <div class="ih-item square list effect3 bottom_to_top row text-center" ng-click = "showAppsFunction(activites.Affiliate_Apps_ID,'update')">
+                    
+                      <div class="col-lg-3 text-left">
+                        <a ng-init="">
+                          <img src="{{activites.AppIcon}}" >
+                        </a>
+                      </div>
+                      <div class="col-lg-3">
+                        <p class="text-left">{{activites.AppName}}</p>
+                      </div>
+                      <div class="row col-lg-6">
+                      <div class="col-lg-6">
+                      
+                        <p class="text-left">{{activites.AppName}}</p>
+                      </div> 
+                      <div class="col-lg-6">
+                      
+                        <p class="text-left">{{activites.AppName}}</p>
+                      </div>  
+                      </div>
+                      
+                    </div>
+                  </div>
+               </div>
+              
+              
+              
+                <div class="row" ng-show="grid" ng-init="fetchPredefinedApps()">
+                  <div class="col-lg-2" ng-repeat="activites in myAppsData | filter:txtsearch | orderBy: sorting">
+                    <div class="ih-item square effect3 bottom_to_top text-center" ng-click="showAffiliateApps(activites.Affiliate_Apps_ID,'update')">
 
-                        <a   ng-click="showAffiliateApps(activites.Affiliate_Apps_ID,'update')">
+                       <div>
 
                           <!-- <img src="{{activites.AppIcon}}" style="margin-left: 28px;"> -->
-                            <img src="{{activites.AppIcon}}" onerror="this.onerror=null;this.src='http://placehold.it/50x50'" ><br />
+                            <img src="{{activites.AppIcon}}" ><br />
                             {{activites.AppName}}
-                        </a>
+                        </div>
                     </div>
                   </div>
                   </div>

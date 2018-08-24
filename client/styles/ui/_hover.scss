@@ -18,7 +18,14 @@
     max-width: 60px;
     }
 }
-
+.ih-item.square.list {
+  position: relative;
+  background: #fff;
+  margin-bottom: 4px;
+  cursor: pointer;
+  max-height: 58px;
+  padding: 20px;
+  }
 .ih-item.square {
   position: relative;
   background: #fff;
