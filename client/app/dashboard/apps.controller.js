@@ -1,15 +1,13 @@
-
 (function () {
     'use strict';
 
     angular.module('app')
-        .controller('appsController', ['$scope','$rootScope','$mdDialog','$http','$state','dataFactory',appsController])
+        .controller('appsController', ['$scope','$rootScope','$mdDialog','$http','$state',appsController])
 
-     function appsController($scope,$rootScope,$mdDialog, $http,$state, dataFactory) {
-    	
+     function appsController( $scope,$rootScope,$mdDialog, $http,$state) {
     	$scope.fixBrokenImages = function( url ){
     		console.log("$scope.fixBrokenImages");
-    		
+
     	    //var img = angular.element('img');
     		var img = angular.element(document).find('img');
     		//console.log(img);
@@ -18,48 +16,60 @@
     	        var t = img[i];
     	        if(t.naturalWidth == 0){
     	            //this image is broken
-    	        	console.log("-------------------------------------------------------------------------------");
+    	        	console.log("--------------------------------------------------");
     	            t.src = url;
     	        }
     	    }
     	}
-    	
-    	
+
+
     	angular.element(document).ready(function(){
     		console.log("on load");
     		$scope.fixBrokenImages('app/img/Beanlogin.png');
-    		
-    		
+
+
     		});
 
 
      $scope.fetchPredefinedApps = function(){
-    	 return dataFactory.GetAffilateApps().then(function(response) {
-    		 
-          $scope.allData = response.data.Data;
-        console.log("allData"+JSON.stringify($scope.allData));
-          $scope.myAppsData = [];
-          $scope.defImg = "https://demo.beanlogin.com/Images/PreDefinedApps/BeanloginApp.png";
-          
-        
-        for(var i = 0; i < response.data.Data.length; i++) {
-            var obj = response.data.Data[i];
-            if(obj.Status){
-            	$scope.myAppsData.push(obj);
-        	  }
-            }
-        
-        //console.log("myAppsData"+JSON.stringify($scope.myAppsData));
-           });
+       $http.get("https://demo.beanlogin.com/BeanLoginAPI/api/v1/BeanLogin/GetAffilateApps")
+       .then(function(response) {
+         //return response;
+         $scope.allData = response.data.Data;
+       console.log("allData"+JSON.stringify($scope.allData));
+         $scope.myAppsData = [];
+         $scope.defImg = "https://demo.beanlogin.com/Images/PreDefinedApps/BeanloginApp.png";
+       for(var i = 0; i < response.data.Data.length; i++) {
+           var obj = response.data.Data[i];
+           if(obj.Status){
+             $scope.myAppsData.push(obj);
+           }
+           }
+         console.log(response.data)
+           //$scope.myWelcome = response.data;
+       });
+    	 // return dataFactory.GetAffilateApps().then(function(response) {
+       //
+       //
+       //
+       //  //console.log("myAppsData"+JSON.stringify($scope.myAppsData));
+       //     });
     }
-     
-    
+
+
     $scope.fetchaffiliateapps = function(){
-    	return dataFactory.GetAffilateApps().then(function(response) {
-    	   console.log("supported"+JSON.stringify(response.data));
-    	  
+      $http.get("https://demo.beanlogin.com/BeanLoginAPI/api/v1/BeanLogin/GetAffilateApps")
+      .then(function(response) {
          $scope.affilatesApps = response.data.Data;
-          });
+      //  return response;
+        console.log(response.data)
+          //$scope.myWelcome = response.data;
+      });
+    	// return dataFactory.GetAffilateApps().then(function(response) {
+    	//    console.log("supported"+JSON.stringify(response.data));
+      //
+      //
+      //     });
    }
    $scope.onChange = function(Status) {
      alert(Status)
@@ -78,28 +88,35 @@
 $scope.showAppsFunction = function(id,mode){
   $scope.appExist = false;
   $scope.mode = mode;
-    return dataFactory.readApps(id).then(function(response) {
-    	
-    	console.log("response for app"+JSON.stringify(response));
-    	
-      $scope.Status = response.data.Data.Status;
-      $scope.AppName = response.data.Data.AppName
-      $scope.App_Description = response.data.Data.App_Description;
-      $scope.Username = response.data.Data.Username;
-      $scope.Password = response.data.Data.Password;
-      $scope.App_URL = response.data.Data.App_URL;
-      $scope.App_ID = response.data.Data.Affiliate_Apps_ID;
+  $http.get("https://demo.beanlogin.com/BeanLoginAPI/api/v1/BeanLogin/GetAffilateAppDetails?id="+ id)
+  .then(function(response) {
+    console.log("response for app"+JSON.stringify(response));
 
-      $mdDialog.show({
-          controller: 'showAppsController',
-          templateUrl: '../app/dashboard/showapps.html',
-          parent: angular.element(document.body),
-          clickOutsideToClose: true,
-          scope: $scope,
-          preserveScope: true,
-          fullscreen: true
-      })
-       });
+    $scope.Status = response.data.Data.Status;
+    $scope.AppName = response.data.Data.AppName
+    $scope.App_Description = response.data.Data.App_Description;
+    $scope.Username = response.data.Data.Username;
+    $scope.Password = response.data.Data.Password;
+    $scope.App_URL = response.data.Data.App_URL;
+    $scope.App_ID = response.data.Data.Affiliate_Apps_ID;
+
+    $mdDialog.show({
+        controller: 'showAppsController',
+        templateUrl: '../app/dashboard/showapps.html',
+        parent: angular.element(document.body),
+        clickOutsideToClose: true,
+        scope: $scope,
+        preserveScope: true,
+        fullscreen: true
+    })
+    //return response;
+    console.log(response.data)
+      //$scope.myWelcome = response.data;
+  });
+    // return dataFactory.readApps(id).then(function(response) {
+    //
+    //
+    //    });
  }
  $rootScope.onChange = function(Status) {
    alert(Status)
@@ -109,49 +126,56 @@ $scope.showAppsFunction = function(id,mode){
  $scope.showAffiliateApps = function(appId,mode){
    //console.log(appId);
       //console.log(mode);
-     return dataFactory.readApps(appId).then(function(response) {
-       ////console.log("after click" + JSON.stringify(response));
+      $http.get("https://demo.beanlogin.com/BeanLoginAPI/api/v1/BeanLogin/GetAffilateAppDetails?id="+ appId)
+      .then(function(response) {
 
-       $scope.appData = response.data.Data;
-       $scope.Status = $scope.appData.Status;
-       $scope.AppName = $scope.appData.AppName;
-       $scope.App_Description = $scope.appData.App_Description;
-       $scope.App_URL = $scope.appData.App_URL;
-       $scope.Username = $scope.appData.Username;
-       $scope.Password = $scope.appData.Password;
-       $scope.App_ID = $scope.appData.App_ID;
-       $scope.mode = mode;
-		if($scope.App_ID == undefined){
-			//console.log("undefined");
-			$scope.App_ID = appId;
-		}
-       //console.log("$scope.App_ID"+$scope.App_ID);
+               $scope.appData = response.data.Data;
+               $scope.Status = $scope.appData.Status;
+               $scope.AppName = $scope.appData.AppName;
+               $scope.App_Description = $scope.appData.App_Description;
+               $scope.App_URL = $scope.appData.App_URL;
+               $scope.Username = $scope.appData.Username;
+               $scope.Password = $scope.appData.Password;
+               $scope.App_ID = $scope.appData.App_ID;
+               $scope.mode = mode;
+        		if($scope.App_ID == undefined){
+        			//console.log("undefined");
+        			$scope.App_ID = appId;
+        		}
+               //console.log("$scope.App_ID"+$scope.App_ID);
 
 
 
-       $mdDialog.show({
-           controller: 'showAppsController',
-           templateUrl: '../app/dashboard/showapps.html',
-           parent: angular.element(document.body),
-           clickOutsideToClose: true,
-           scope: $scope,
-           preserveScope: true,
-           fullscreen: true
-       })
-        });
+               $mdDialog.show({
+                   controller: 'showAppsController',
+                   templateUrl: '../app/dashboard/showapps.html',
+                   parent: angular.element(document.body),
+                   clickOutsideToClose: true,
+                   scope: $scope,
+                   preserveScope: true,
+                   fullscreen: true
+               })
+      //  return response;
+        console.log(response.data)
+          //$scope.myWelcome = response.data;
+      });
+     // return dataFactory.readApps(appId).then(function(response) {
+     //   ////console.log("after click" + JSON.stringify(response));
+     //
+     //    });
   }
 
- 
- 
+
+
  $scope.AddAppsFunction = function(mode){
    $scope.clearForms();
    $scope.appExist = false;
    $scope.mode = mode;
-   
+
    if($scope.mode == 'create'){
-	   $scope.Status = true;	
+	   $scope.Status = true;
    }
-   
+
    ////console.log($scope.mode);
    $mdDialog.show({
        controller: 'showAppsController',
@@ -167,29 +191,29 @@ $scope.showAppsFunction = function(id,mode){
 // update product record / save changes
 $scope.updateApps = function(AppName,AppDescription,AppURL,Username,Password,Status,appId,mode,isValid){
 	console.log(isValid);
-	
+
 	if(!isValid){
 		console.log("Something went badly wrong!");
 		throw new Error("Not Valid Data");
 	}
-	
+
 	//console.log("updateApps-------------"+JSON.stringify($scope.affilatesApps));
-	
+
 	$scope.AppNames = [];
     angular.forEach($scope.affilatesApps, function(value, key) {
     	//console.log("key"+key);
     	//console.log("value"+JSON.stringify(value.AppName));
-    	
+
         $scope.AppNames.push(value.AppName);
     });
-    
+
     if($scope.AppNames.includes(AppName) && $scope.mode == 'create' ){
     	console.log("inclues");
     	$scope.appExist = true;
     	throw new Error("App Exists");
     }
-    
-    
+
+
     else{
     	console.log("not inclues");
     	 $scope.mode = mode;
@@ -219,7 +243,7 @@ $scope.updateApps = function(AppName,AppDescription,AppURL,Username,Password,Sta
     	     Status:Status
     	   };
     }
-    	 
+
     	//console.log(JSON.stringify(appData));
     	  $http.post('https://demo.beanlogin.com/BeanLoginAPI/api/v1/BeanLogin/saveAffiliateApps', appData).
     	   then(function(response) {
@@ -228,11 +252,11 @@ $scope.updateApps = function(AppName,AppDescription,AppURL,Username,Password,Sta
     	     $scope.clearForms();
     	     $mdDialog.hide();
     	   }, function(response) {});
-   
+
 
 }
 
-  
+
 
    $state.reload();
 
@@ -644,21 +668,21 @@ $scope.openLink = function(URL){
        $scope.sortType     = 'Affiliate_Apps'; // set the default sort type
        $scope.sortReverse  = false;
        $scope.toggleOrder = function(value){
-    	   
+
     	   if(value == 'ascending'){
-    		   $scope.ascending = true; 
+    		   $scope.ascending = true;
     		   $scope.descending = false;
     	   }
     	   else if(value == 'descending'){
     		   $scope.descending = true;
     		   $scope.ascending = false;
     	   }
-    	   
+
     	   if($scope.sorting == 'AppName'){
     		   $scope.sorting = '-AppName';
     	   }
     	   else $scope.sorting = 'AppName'
-    	   
+
        $scope.sortReverse=!$scope.sortReverse;
        }
       $scope.showAdvanced = function(ev,appname) {
