@@ -2,12 +2,12 @@
     'use strict';
 
     angular.module('app')
-        .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider',
+        .config(['$stateProvider', '$urlRouterProvider','$ocLazyLoadProvider',
 
             function($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
                 $urlRouterProvider
                     .otherwise('/app/dashboard');
-
+ //$locationProvider.html5Mode(true).hashPrefix('*');
                 $stateProvider
                     // Overall
                     .state('app', {

@@ -13,17 +13,13 @@
                          'bg-color-warning': ['15','25','35'].indexOf(app.colorOption) >= 0,
                          'bg-color-danger': ['16','26','36'].indexOf(app.colorOption) >= 0}">
 
-        <span class="logo-icon material-icons">view_compact</span>
-        <a href="#!/" class="brand">{{::app.brand}}</a>
+
+        <a href="#!/" class="brand text-uppercase"><img src="assets/images/Beanlogin.png" style="vertical-align: text-bottom;margin-right: 6px;" />Beanlogin</a>
         <a href="" class="collapsednav-toggler" ng-click="toggleCollapsedNav()" ><i class="material-icons">{{app.togglerIconVal}}</i></a>
     </section>
 
-    
+
     <section class="sidebar-content" ng-include src=" 'app/layout/sidebar-content.html' "></section>
 
-    <section class="sidebar-footer">
-        <ul class="nav">
-            <li><a md-button aria-label="menu" target="_blank" ng-href="{{app.link}}"><i class="nav-icon material-icons">help</i><span class="nav-text"><span data-translate="HELP"></span> & <span data-translate="SUPPORT"></span></span></a></li>
-        </ul>
-    </section>
+
 </nav>

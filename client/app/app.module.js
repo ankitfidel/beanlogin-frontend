@@ -14,19 +14,13 @@
         ,'duScroll'
 
         ,'app.layout'
-        ,'app.ui'
         ,'app.i18n'
 
         ,'app.chart'
-        ,'app.table'
-        ,'app.form'
-        ,'app.form.validation'
-        ,'app.page'
         ,'app.api-affiliate'
 
         // App
-        ,'app.calendar'
-        ,'app.task'
+        
     ]);
 
 })();

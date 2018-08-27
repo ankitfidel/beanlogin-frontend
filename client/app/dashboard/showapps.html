@@ -2,7 +2,7 @@
     <form ng-cloak name="affilateform" ng-submit="login(affilateform.$valid)">
         <md-toolbar>
             <div class="md-toolbar-tools">
-                <img src="assets/icons/BeanloginApp.png" alt="img" style="width: 21px;">
+                <!-- <img src="assets/icons/BeanloginApp.png" alt="img" style="width: 21px;"> -->
                 <h2 style="margin-left: 10px;">Affilate</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="cancel()">
@@ -42,9 +42,9 @@
                     <md-button ng-disabled = "affilateform.appurl.$invalid" style="margin:0" class = "md-raised md-primary pull-right" ng-click ="openLink(App_URL)"> test </md-button>
                    </div>
                     <span ng-show="affilateform.appurl.$invalid && !affilateform.appurl.$pristine" style="clear:both" class="help-block">Enter a valid URL.</span>
-                    </md-input-container> 
+                    </md-input-container>
                 </div>
-                 
+
                  <div class="form-group" ng-class="{ 'has-error':affilateform.uername.$invalid && !affilateform.uername.$pristine }">
                     <md-input-container class="md-block" flex-gt-xs>
                         <label>Username</label>
@@ -53,7 +53,7 @@
                     </md-input-container>
                 </div>
 
-               
+
                 <md-input-container class="md-block" flex-gt-xs>
                     <input type="{{inputType}}" ng-model="Password" placeholder="Password" required />
                     <md-checkbox ng-click="hideShowPassword()" class="md-primary" ng-model="passwrdshideshow" aria-label="Checkbox 1">
@@ -68,8 +68,8 @@
 
         <div>
             <md-button type="submit" ng-click="updateApps(AppName,App_Description,App_URL,Username,Password,Status,App_ID,mode,affilateform.$valid)" class="md-raised md-primary">Save</md-button>
-        <md-button type="button" ng-click="cancel()">Cancel</md-button> 
-            
+        <md-button type="button" ng-click="cancel()">Cancel</md-button>
+
 
             <span ng-show="appExist" style="color:red">App Exist</span>
         </div>

@@ -7,31 +7,31 @@
     function AppSidenavRightCtrl ($scope) {
         var imagePath = 'assets/images/g1.jpg';
         $scope.messages = [
-            {
-                face : 'assets/images-demo/avatars/1.jpg',
-                who: 'Jason Bourne',
-                notes: "Hi there"
-            },
-            {
-                face : 'assets/images-demo/avatars/2.jpg',
-                who: 'Bella Doe',
-                notes: "Hi there"
-            },
-            {
-                face : 'assets/images-demo/avatars/3.jpg',
-                who: 'Min Chan',
-                notes: "Hi there"
-            },
-            {
-                face : 'assets/images-demo/avatars/4.jpg',
-                who: 'Sophia Doe',
-                notes: "Hi there"
-            },
-            {
-                face : 'assets/images-demo/avatars/5.jpg',
-                who: 'Luna Doe',
-                notes: "Hi there"
-            },
+            // {
+            //     face : 'assets/images-demo/avatars/1.jpg',
+            //     who: 'Jason Bourne',
+            //     notes: "Hi there"
+            // },
+            // {
+            //     face : 'assets/images-demo/avatars/2.jpg',
+            //     who: 'Bella Doe',
+            //     notes: "Hi there"
+            // },
+            // {
+            //     face : 'assets/images-demo/avatars/3.jpg',
+            //     who: 'Min Chan',
+            //     notes: "Hi there"
+            // },
+            // {
+            //     face : 'assets/images-demo/avatars/4.jpg',
+            //     who: 'Sophia Doe',
+            //     notes: "Hi there"
+            // },
+            // {
+            //     face : 'assets/images-demo/avatars/5.jpg',
+            //     who: 'Luna Doe',
+            //     notes: "Hi there"
+            // },
         ];
 
         $scope.notifications = [
@@ -62,4 +62,4 @@
             }
         ]
     }
-})(); 
+})();
