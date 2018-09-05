@@ -231,6 +231,7 @@ $scope.updateApps = function(AppName,AppDescription,AppURL,Username,Password,Sta
     	   };
     	 }
 
+    	 
     	 if($scope.mode == 'create'){
     	   //console.log("cr");
     	   //console.log(Status);

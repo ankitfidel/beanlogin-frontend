@@ -1,0 +1,81 @@
+    <md-content laout="column" flex ng-controller="campaignCtrl">
+     -<div ng-controller="campaignCtrl" ng-init="grid = true ; sorting = 'AppName' ;descending = true;">
+<div class="row" style="margin-top:50px;margin-bottom:20px; margin-left: 20px;">
+
+    <div class="input-group col-sm-6">
+    <input id="name" ng-model="txtsearch" type="text" class="form-control" name="name" placeholder="Search">
+    <span class="input-group-addon"><i class="fa fa-search"></i></span>
+  </div>
+
+
+    <div class="col-sm-6 col-lg-4">
+     <i class="fa fa-2x text-grey fa-list" ng-class={'text-primary':list}  ng-click="grid = false; list = true" style="outline: 0;opacity: 0.5; margin-left:10px;padding-left: 20px;"></i>
+   <!--      <i class="fa fa-2x text-grey fa-th" ng-class={'text-primary':grid} ng-click="grid = true; list = false" style="outline: 0;opacity: 0.5;padding-left: 8px; margin-left:10px;"  ></i>
+        <i class="fa fa-2x text-grey  fa-sort-alpha-asc" ng-click ="toggleOrder('ascending')" ng-hide = "ascending" ng-class={'text-primary':!sortReverse} style="outline: 0;opacity: 0.5;padding-left: 8px; margin-left:10px;"></i>
+        <i class="fa fa-2x text-grey  fa-sort-alpha-desc " ng-click ="toggleOrder('descending')" ng-hide = "descending" ng-class={'text-primary':sortReverse} style="outline: 0;opacity: 0.5;padding-left: 8px; margin-left:10px;"></i>
+         -->	
+        <!-- <button class="btn btn-primary" style=" margin-left:10px;">App Catalog</button> -->
+        <button class="btn btn-primary" ng-disabled = "disableAddButton" ng-click="AddCampaignFunction('create')" style=" margin-left:10px; margin-top: -10px;">Add Campaign</button>
+      </div>
+  </div>
+
+        <div class="divider divider-md"></div>
+        
+        <md-card class="no-margin-h">
+            
+            <md-toolbar class="md-table-toolbar md-default" ng-hide="options.rowSelection && selected.length">
+                <div class="md-toolbar-tools">
+                    <span>Campaign</span>
+                    <div flex></div>
+                    <md-button class="md-icon-button" ng-click="loadStuff()">
+                        <md-icon>refresh</md-icon>
+                    </md-button>
+                </div>
+            </md-toolbar>
+            
+            <md-toolbar class="md-table-toolbar alternate" ng-show="options.rowSelection && selected.length">
+                <div class="md-toolbar-tools">
+                    <span>{{selected.length}} {{selected.length > 1 ? 'items' : 'item'}} selected</span>
+                </div>
+            </md-toolbar>
+            
+            <md-table-container>
+                <table md-table  md-progress="promise">
+                    <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="logOrder">
+                        <tr md-row>
+                            <th md-column md-order-by="name"><span>Name</span></th>
+                            <th md-column md-order-by="type"><span>Status</span></th>
+                            <th md-column md-numeric md-order-by="calories.value" md-desc><span>Start date</span></th>
+                               <th md-column md-numeric md-order-by="calories.value" md-desc><span>End date</span></th>
+                                 <th md-column md-numeric md-order-by="calories.value" md-desc><span>Budget Type</span></th>
+                                   <th md-column md-numeric md-order-by="calories.value" md-desc><span>Amount</span></th>
+                                   <th md-column md-numeric md-order-by="calories.value" md-desc><span>BID</span></th>
+                       
+                        </tr>
+                    </thead>
+                    <tbody md-body>
+                        <tr md-row ng-repeat ="data in data" ng-click="EditCampaignFunction('create',data)">
+                            <td md-cell>{{data.name}}</td>
+                   
+                               <td md-cell>{{data.status}}</td>
+                            <td md-cell>{{data.startDate}}</td>
+                            <td md-cell>{{data.endDate}}</td>
+                             <td md-cell>{{data.budgetType}}</td>
+                              <td md-cell>{{data.amount}}</td>
+                               <td md-cell>{{data.bid}}</td>
+               
+                        </tr>
+                        
+                       
+                    </tbody>
+                </table>
+            </md-table-container>
+
+            <md-table-pagination md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{desserts.count}}" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks" md-on-paginate="logPagination"></md-table-pagination>
+        </md-card>
+
+
+    </article>
+    
+      
+     </md-content>

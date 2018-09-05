@@ -18,6 +18,8 @@
 
         ,'app.chart'
         ,'app.api-affiliate'
+        ,'md.data.table'
+        ,'ngFileUpload'
 
         // App
         

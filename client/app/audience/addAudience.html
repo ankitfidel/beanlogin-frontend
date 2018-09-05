@@ -1,0 +1,80 @@
+<md-dialog class="customdialogaffilate" ng-controller="DialogController">
+
+    <form ng-cloak name="creativeform" ng-submit="login(creativeform.$valid)">
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <!-- <img src="assets/icons/BeanloginApp.png" alt="img" style="width: 21px;"> -->
+                <h2 style="margin-left: 10px;">Audience</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <i class="fa fa-times text-white" aria-label="Close dialog"></i>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <div class="md-dialog-content">
+         
+                <div class="form-group" ng-class="{ 'has-error':affilateform.email.$invalid && !affilateform.email.$pristine }">
+                    <md-input-container class="md-block" flex-gt-xs>
+                        <label>Name</label>
+                        <input type="text" name="title" ng-model="name" class="form-control" required>
+                        <p ng-show="creativeform.email.$invalid && !creativeform.email.$pristine" class="help-block">Enter a valid email.</p>
+                    </md-input-container>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error':affilateform.description.$invalid && !affilateform.description.$pristine }">
+                    <md-input-container class="md-block" flex-gt-xs>
+                        <label>Description </label>
+                        <input type="text" name="description" ng-model="description" class="form-control">
+                        <p ng-show="creativeform.description.$invalid && !creativeform.description.$pristine" class="help-block">Enter a valid description.</p>
+                    </md-input-container>
+                </div>
+
+              <!--   <div class="form-group" ng-class="{ 'has-error':creativeform.url.$invalid && !creativeform.url.$pristine }">
+                    <md-input-container class="md-block" flex-gt-xs>
+                    <div class="">
+                        <label>Creative URL</label>
+                        <input type="url" name="url" ng-model="creative.url" class="form-control col-sm-10" required>
+                
+                   </div>
+                    <span ng-show="creativeform.url.$invalid && !creativeform.url.$pristine" style="clear:both" class="help-block">Enter a valid URL.</span>
+                    </md-input-container>
+                </div> -->
+                
+                <div class="form-group" ng-class="{ 'has-error':creativeform.image.$invalid && !affilateform.appurl.$pristine }">
+                    <md-file-container flex-gt-xs>
+                    <div class="">
+                   
+                     <!--  <input type="file" name="file" onchange="angular.element(this).scope().uploadFile(this.files)" ng-module="creative.image"/> -->
+                      
+                   <button ng-model="creative.image" ngf-select="uploadFiles($files, $invalidFiles)" multiple
+          accept=".csv" ngf-max-height="1000" ngf-max-size="2MB">
+      Select File</button>
+                   </div>
+                   
+                    </md-file-container>
+                  
+  <br><br>
+  File:
+  <div style="font:smaller">{{f.name}} {{errFile.name}} {{errFile.$error}} {{errFile.$errorParam}}
+      <span class="progress" ng-show="f.progress >= 0">
+          <div style="width:{{f.progress}}%"  
+               ng-bind="f.progress + '%'"></div>
+      </span>
+  </div>     
+  {{errorMsg}}
+                </div>
+
+           
+
+        </md-dialog-content>
+
+        <div>
+            <md-button type="submit" ng-click="createCreative(creative)" class="md-raised md-primary">Save</md-button>
+        <md-button type="button" ng-click="cancel()">Cancel</md-button>
+
+
+            <span ng-show="appExist" style="color:red">App Exist</span>
+        </div>
+    </form>
+</md-dialog>

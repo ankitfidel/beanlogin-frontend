@@ -29,6 +29,23 @@
                         url: '/appscreen',
                         templateUrl: "app/dashboard/appscreen.html"
                     })
+                    .state('app.campaign', {
+                        url: '/campaign',
+                        templateUrl: "app/campaign/campaign.html"
+                    })
+                      .state('app.creative', {
+                        url: '/creative',
+                        templateUrl: "app/creative/creative.html"
+                    })
+                      .state('app.creativeads', {
+                        url: '/creativeads/:id',
+                        templateUrl: "app/creative/creativeads.html"
+                    })
+                      .state('app.audience', {
+                        url: '/audience',
+                        templateUrl: "app/audience/audience.html"
+                    })
+                    
                     // .state('app.affiliatescreen', {
                     //     url: '/affiliatescreen',
                     //     templateUrl: "app/affiliatescreen.html"

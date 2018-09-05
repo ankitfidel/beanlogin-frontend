@@ -1,0 +1,98 @@
+<style> 
+   .md-select-menu-container { z-index: 99999 !important; }
+   .md-datepicker-calendar-pane{
+   z-index: 1200}
+</style>
+<md-dialog class="customdialogaffilate" ng-controller="addcampaignCtrl" ng-init = "initAddCamp()">
+   <form ng-cloak name="creativeform" ng-submit="login(creativeform.$valid)">
+      <md-toolbar>
+         <div class="md-toolbar-tools">
+            <!-- <img src="assets/icons/BeanloginApp.png" alt="img" style="width: 21px;"> -->
+            <h2 style="margin-left: 10px;">Campaign</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="cancel()">
+               <i class="fa fa-times text-white" aria-label="Close dialog"></i>
+            </md-button>
+         </div>
+      </md-toolbar>
+      <md-dialog-content>
+         <div class="md-dialog-content">
+         <div class="form-group" ng-class="{ 'has-error':affilateform.email.$invalid && !affilateform.email.$pristine }">
+            <md-input-container class="md-block" flex-gt-xs>
+               <label>Name</label>
+               <input type="text" name="title" ng-model="name" class="form-control" required>
+               <p ng-show="creativeform.email.$invalid && !creativeform.email.$pristine" class="help-block">Enter a valid email.</p>
+            </md-input-container>
+         </div>
+         <div layout="row" >
+            <span></span>
+            <md-select ng-model="status" placeholder="status" class="md-no-underline" required md-no-asterisk="false">
+               <md-option value="ACTIVE">ACTIVE</md-option>
+               <md-option value="PAUSE">PAUSE</md-option>
+               <md-option value="SELECTED">ELECTED</md-option>
+               <md-option value="REJECTED">REJECTED</md-option>
+            </md-select>
+            <md-datepicker class = "customcalender" ng-model="startDate" md-placeholder="Start date"></md-datepicker>
+            <md-datepicker class = "customcalender" ng-model="endDate" md-placeholder="End date"></md-datepicker>
+            <!--  <div >
+               <h4>Standard date-picker</h4>
+               <md-datepicker class = "customcalender" ng-model="myDate" md-placeholder="Enter date"></md-datepicker>
+               </div> -->
+         </div>
+         <div class="form-group" ng-class="{ 'has-error':affilateform.description.$invalid && !affilateform.description.$pristine }">
+            <md-select ng-model="budgettype" placeholder="Budget Type" class="md-no-underline" required md-no-asterisk="false">
+               <md-option value="DAILY">DAILY</md-option>
+               <md-option value="LIFETIME">LIFETIME</md-option>
+            </md-select>
+         </div>
+         <div class="form-group" ng-class="{ 'has-error':affilateform.email.$invalid && !affilateform.email.$pristine }">
+            <md-input-container class="md-block" flex-gt-xs>
+               <label>Amount</label>
+               <input type="number" name="title" ng-model="amount" class="form-control" required>
+               <p ng-show="creativeform.email.$invalid && !creativeform.email.$pristine" class="help-block">Enter a valid email.</p>
+            </md-input-container>
+         </div>
+         
+          <!-- <div class="form-group" ng-class="{ 'has-error':affilateform.email.$invalid && !affilateform.email.$pristine }">
+            <md-input-container class="md-block" flex-gt-xs>
+               <label>Amount</label>
+               <input type="number" name="title" ng-model="amount" class="form-control" required>
+               <p ng-show="creativeform.email.$invalid && !creativeform.email.$pristine" class="help-block">Enter a valid email.</p>
+            </md-input-container>
+         </div> -->
+          <div class="form-group" ng-class="{ 'has-error':affilateform.email.$invalid && !affilateform.email.$pristine }">
+           <md-radio-group ng-model="data.group1" layout="row">
+           <div flex style="max-width:200px;">
+            Bid Type:
+          </div>
+		      <md-radio-button ng-click = "showmanualtext = false" value="Apple" class="md-primary"  style="outline:0 none;">Automatic</md-radio-button>
+		      <md-radio-button  ng-model="" ng-click ="showmanualtext = true" value="Mango" class="md-primary" style="outline:0 none;">Manual</md-radio-button>
+		    </md-radio-group>
+          
+         <div>
+         <input type="text" ng-model = "manualtext" ng-show = "showmanualtext" class="form-control" required style="margin-top: 17px;">
+         </div>
+         </div> 
+         <!-- <input type="checkbox" ng-model="checkBoxValue" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch7"/> -->
+                <!-- <label class="onoffswitch-label" for="myonoffswitch7">
+                    
+                 </label> -->
+          <!--   <md-input-container>
+               <label>Amount</label>
+               <input type="radio" name="title" ng-model="amount" class="form-control" required>
+               <p ng-show="creativeform.email.$invalid && !creativeform.email.$pristine" class="help-block">Enter a valid email.</p>
+            </md-input-container>
+            
+            <md-input-container>
+               <label>Amount</label>
+               <input type="radio" name="title" ng-model="" class="form-control" required>
+               <p ng-show="creativeform.email.$invalid && !creativeform.email.$pristine" class="">Enter a valid email.</p>
+            </md-input-container> -->
+      </md-dialog-content>
+      <div>
+         <md-button type="submit" ng-click="createCreative(creative)" class="md-raised md-primary">Save</md-button>
+         <md-button type="button" ng-click="cancel()">Cancel</md-button>
+         <span ng-show="appExist" style="color:red">App Exist</span>
+      </div>
+   </form>
+</md-dialog>
